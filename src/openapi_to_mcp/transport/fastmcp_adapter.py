@@ -50,7 +50,7 @@ class FastMcpAdapter:
         self._server_name = server_name
         self._native = FastMCP is not None
         self._runtime = (
-            FastMCP(server_name, streamable_http_path="/")
+            FastMCP(server_name, streamable_http_path="/mcp")
             if self._native
             else _LocalMcpServer(server_name)
         )

@@ -9,14 +9,14 @@
 In native FastMCP mode, streamable requests fail with HTTP 500 and runtime error:
 `Task group is not initialized. Make sure to use run().`
 
-Current transport wiring mounts FastMCP streamable app under `/mcp` while FastMCP default streamable path is also `/mcp`.
-This creates path confusion (`/mcp/mcp`) and does not guarantee native session manager lifecycle activation inside the parent FastAPI app lifecycle.
+Previous transport wiring mounted FastMCP streamable app under `/mcp` while using a root route in the sub-app.
+This created trailing-slash redirect behavior (`/mcp` -> `/mcp/`) and did not guarantee native session manager lifecycle activation inside the parent FastAPI app lifecycle.
 
 ## Decision
-Use explicit native lifecycle management and normalize mounted streamable path.
+Use explicit native lifecycle management and canonicalize the public endpoint to `POST /mcp` (no trailing slash).
 
-- Create native FastMCP runtime with `streamable_http_path="/"`.
-- Mount the resulting streamable app at `/mcp` in the parent FastAPI app.
+- Create native FastMCP runtime with `streamable_http_path="/mcp"`.
+- Mount the resulting streamable app at root (`""`) in the parent FastAPI app.
 - Reuse a single streamable app instance from the adapter.
 - Expose adapter-native lifespan context and enter it inside FastAPI lifespan when native mode is enabled.
 
@@ -35,7 +35,7 @@ Use explicit native lifecycle management and normalize mounted streamable path.
    - Rejected: regression would remain untested in pipeline.
 
 ## Consequences and Tradeoffs
-- Positive: native streamable mode works without runtime 500 and keeps endpoint contract stable.
+- Positive: native streamable mode works without runtime 500 and keeps `/mcp` as direct canonical endpoint.
 - Positive: CI can detect native streamable regressions.
 - Negative: additional lifecycle wiring complexity in transport adapter.
 

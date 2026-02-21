@@ -68,7 +68,7 @@ def create_app(
         return {"status": "ok"}
 
     if mcp_adapter.supports_streamable_http:
-        app.mount("/mcp", mcp_adapter.streamable_http_app())
+        app.mount("", mcp_adapter.streamable_http_app())
     else:
 
         @app.post("/mcp")

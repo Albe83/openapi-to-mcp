@@ -45,7 +45,9 @@ paths:
     return spec_file
 
 
-def test_native_streamable_request_does_not_return_internal_server_error(tmp_path: Path) -> None:
+def test_native_streamable_request_uses_canonical_mcp_path_without_trailing_slash(
+    tmp_path: Path,
+) -> None:
     spec_file = _write_spec(tmp_path)
     settings = Settings.from_env({"OPENAPI_SPEC_PATH": str(spec_file)})
     app = create_app(settings, invoker_override=StubInvoker())
@@ -57,6 +59,7 @@ def test_native_streamable_request_does_not_return_internal_server_error(tmp_pat
         headers = {
             "Accept": "application/json, text/event-stream",
             "Content-Type": "application/json",
+            "Host": "127.0.0.1",
         }
         payload = {
             "jsonrpc": "2.0",
@@ -69,9 +72,10 @@ def test_native_streamable_request_does_not_return_internal_server_error(tmp_pat
             },
         }
 
-        statuses = {}
-        for path in ("/mcp", "/mcp/mcp"):
-            response = client.post(path, json=payload, headers=headers, follow_redirects=True)
-            statuses[path] = response.status_code
+        canonical = client.post("/mcp", json=payload, headers=headers, follow_redirects=False)
+        trailing = client.post("/mcp/", json=payload, headers=headers, follow_redirects=False)
 
-        assert all(code != 500 for code in statuses.values()), statuses
+        assert canonical.status_code != 307
+        assert canonical.status_code != 500
+        assert trailing.status_code == 307
+        assert trailing.headers.get("location", "").endswith("/mcp")

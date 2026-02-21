@@ -2,7 +2,7 @@
 
 - Parent issue: [#19](https://github.com/Albe83/openapi-to-mcp/issues/19)
 - ADR: [docs/adr/0002-fix-streamable-native-lifespan.md](../adr/0002-fix-streamable-native-lifespan.md)
-- Purpose: Show startup and request flow after native streamable lifecycle fix.
+- Purpose: Show startup and request flow after native streamable lifecycle fix with canonical `POST /mcp`.
 
 ```mermaid
 sequenceDiagram

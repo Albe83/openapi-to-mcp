@@ -18,7 +18,7 @@ classDiagram
 
   class FastAPIApp {
     +lifespan() async context
-    +mount('/mcp', app)
+    +mount('', app)
   }
 
   class StartupOrchestrator {
@@ -36,6 +36,6 @@ classDiagram
 
   FastAPIApp --> StartupOrchestrator : bootstrap first
   FastAPIApp --> FastMcpAdapter : mounts and enters native lifespan
-  FastMcpAdapter --> FastMCPRuntime : configure streamable_http_path='/'
+  FastMcpAdapter --> FastMCPRuntime : configure streamable_http_path='/mcp'
   FastMcpAdapter --> StarletteStreamableApp : cache and reuse
 ```

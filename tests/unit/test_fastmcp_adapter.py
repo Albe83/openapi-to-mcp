@@ -34,4 +34,4 @@ def test_fastmcp_adapter_native_streamable_app() -> None:
     assert callable(app)
     assert app is cached
     paths = [getattr(route, "path", None) for route in getattr(app, "routes", [])]
-    assert "/" in paths
+    assert "/mcp" in paths
