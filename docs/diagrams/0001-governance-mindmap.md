@@ -43,6 +43,9 @@ mindmap
         Cache/tmpfs isolation and compat fallback
       15 Container Native Isolation
         No nested env isolation by default
+      16 AI Reasoning Level
+        basic -> medium, advanced -> max
+        Best-effort fallback when unsupported
       09 Simple English
         ADR/docs/comments language rule
     Release

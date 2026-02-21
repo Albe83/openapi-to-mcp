@@ -49,6 +49,10 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
   - `...`
 - [ ] `N/A` with reason for changed artifacts without linter (if any):
   - `...`
+- [ ] AI reasoning-level evidence for labeled tasks/findings (or `N/A - <reason>`):
+  - Complexity label used: `basic` / `advanced` / `N/A`
+  - Reasoning level selected: `medium` / `max` / `N/A`
+  - Support note: `supported` / `N/A - reasoning level control not supported`
 - [ ] Results summary:
   - `...`
 

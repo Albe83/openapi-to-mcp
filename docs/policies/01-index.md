@@ -2,8 +2,8 @@
 
 Policy Owner: Engineering Maintainers
 
-This is the entrypoint for all contribution policy rules.
-For feature and bugfix code changes, policies are mandatory for humans and AI agents.
+Entrypoint for contribution policy rules.
+For feature and bugfix code changes, policies are mandatory.
 
 ## Read Order
 1. [01-index.md](01-index.md)
@@ -25,6 +25,7 @@ For feature and bugfix code changes, policies are mandatory for humans and AI ag
 - [13-container-build-rules.md](13-container-build-rules.md): tool-agnostic container profile and build evidence rules.
 - [14-container-run-mounts.md](14-container-run-mounts.md): RUN mount isolation and compat fallback rules.
 - [15-container-no-extra-env-isolation.md](15-container-no-extra-env-isolation.md): avoid nested env isolation inside containers unless required.
+- [16-ai-agent-reasoning-level.md](16-ai-agent-reasoning-level.md): AI reasoning level by `basic`/`advanced` complexity label.
 
 ## Default Paths
 - Feature/bugfix code: `02` -> `03` -> `04` -> `05` -> `10` -> `07`
@@ -33,6 +34,7 @@ For feature and bugfix code changes, policies are mandatory for humans and AI ag
 - If public API changes: also read `11`.
 - If boundaries/integrations/ports/adapters change: also read `12`.
 - If container install/run workflows change: also read `13`, `14`, and `15`.
+- If AI executes a labeled task/finding: also read `16`.
 - Release activity: add `06`
 
 ## Context-Efficient Rule
