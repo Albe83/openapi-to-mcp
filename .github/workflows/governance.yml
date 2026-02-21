@@ -1,0 +1,31 @@
+name: Governance
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  governance:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Governance Checks
+        run: make governance-check
+
+      - name: Install Dev Dependencies
+        run: python -m pip install -e .[dev]
+
+      - name: Lint
+        run: make lint
+
+      - name: Test
+        run: make test

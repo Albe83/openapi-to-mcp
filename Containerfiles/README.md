@@ -16,10 +16,12 @@ The design is tool-agnostic and works with any compatible OCI builder/runner.
 - Keep dependency install steps before app copy to improve cache reuse.
 - Keep build context small with `.dockerignore` and `.containerignore`.
 - Do not require one specific tool (Docker/Podman/Buildah/etc.).
+- Use container-native isolation by default. Do not create `venv`/equivalent layers inside container workflows unless a technical constraint requires an exception.
 - For mutating dependency steps, use mount isolation when builder supports it:
   - `type=cache` for cache directories.
   - `type=tmpfs` for temp/log directories.
 - Use `.compat` only when mount syntax is not supported by the selected builder.
+- If an exception to container-native isolation is needed, document rationale and affected files in PR evidence (`N/A` when not applicable).
 
 ## Wrapper Scripts
 Use repository wrappers to keep commands consistent:
@@ -68,3 +70,10 @@ OCI_RUNNER=nerdctl ./scripts/container-test.sh smoke openapi-to-mcp:prod
 ```
 
 If your platform uses different commands, extend the wrapper scripts without changing the policy goals.
+
+## Governance Check
+Run governance validation locally before PR:
+
+```bash
+make governance-check
+```

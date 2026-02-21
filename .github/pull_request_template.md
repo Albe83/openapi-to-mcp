@@ -23,6 +23,8 @@ Applicability rule:
 - IDL type (Required if API changed): `OpenAPI/AsyncAPI/GraphQL/Proto/Other`
 - IDL spec location (Required if API changed): `docs/interfaces/...`
 - DDD artifacts location(s) (Required if model/schema changed): ADR section(s) with UL / BC / Aggregates
+- Container install/run workflow changed? `yes/no`
+- Container policy evidence (Required if `yes`): compliance with `13`/`14`/`15` or `N/A - <reason>`
 
 ## TDD Evidence (Required for `feat`/`fix`)
 If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
@@ -56,7 +58,7 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 - Findings outcome: `no findings` / `findings listed`
 - If outcome is `no findings`, include exact statement: `no findings`
 - If outcome is `findings listed`, fill one table row per finding.
-- For findings, create sub-issues with [.github/ISSUE_TEMPLATE/finding.yml](../.github/ISSUE_TEMPLATE/finding.yml).
+- For findings, create sub-issues with [.github/ISSUE_TEMPLATE/finding.yml](./ISSUE_TEMPLATE/finding.yml).
 - Each finding sub-issue must include labels: `task`, `finding`, one of `basic`/`advanced`, and one priority label.
 
 | Finding | Category | Priority | Sub-issue |
@@ -83,6 +85,8 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 - [ ] If IDL format supports YAML, YAML is preferred (JSON only if needed).
 - [ ] If data model/schema changed, DDD applicability is assessed.
 - [ ] If DDD is applicable, UL/BC/Aggregates are documented and linked.
+- [ ] If container install/run workflows changed, compliance with `13`/`14`/`15` is evidenced.
+- [ ] If policy `15` exception is used, technical rationale and impacted files/commands are documented.
 - [ ] New/updated ADR/docs/comments are written in simple English.
 - [ ] Any non-simple wording is justified when required for precision.
 - [ ] Mandatory review completed (author + independent reviewer).

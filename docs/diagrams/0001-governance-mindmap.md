@@ -37,9 +37,19 @@ mindmap
         API-change trigger
       12 Hexagonal Architecture
         Boundary/integration trigger
+      13 Container Build Rules
+        Tool-agnostic build profiles
+      14 Container RUN Mounts
+        Cache/tmpfs isolation and compat fallback
+      15 Container Native Isolation
+        No nested env isolation by default
       09 Simple English
         ADR/docs/comments language rule
     Release
       06 Versioning and Release
         SemVer and release rules
+    Governance Automation
+      CI Governance Job
+        Policy word limit and index coverage
+        Link checks and container isolation checks
 ```

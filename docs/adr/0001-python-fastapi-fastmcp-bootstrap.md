@@ -6,7 +6,7 @@
 - Related sub-issues: [#2](https://github.com/Albe83/openapi-to-mcp/issues/2), [#3](https://github.com/Albe83/openapi-to-mcp/issues/3), [#4](https://github.com/Albe83/openapi-to-mcp/issues/4), [#5](https://github.com/Albe83/openapi-to-mcp/issues/5), [#6](https://github.com/Albe83/openapi-to-mcp/issues/6), [#7](https://github.com/Albe83/openapi-to-mcp/issues/7), [#8](https://github.com/Albe83/openapi-to-mcp/issues/8), [#9](https://github.com/Albe83/openapi-to-mcp/issues/9), [#10](https://github.com/Albe83/openapi-to-mcp/issues/10), [#11](https://github.com/Albe83/openapi-to-mcp/issues/11)
 
 ## Context
-The repository has governance and documentation, but no runnable application code.
+At ADR creation time, the repository had governance and documentation but no runnable application code.
 The first increment must provide a real technical foundation that can load an OpenAPI contract and expose mapped tools through MCP over HTTP streamable transport.
 
 ## Decision

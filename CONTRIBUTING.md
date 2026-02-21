@@ -30,20 +30,13 @@ If container install/run workflows change, also read:
 - [docs/policies/14-container-run-mounts.md](docs/policies/14-container-run-mounts.md)
 - [docs/policies/15-container-no-extra-env-isolation.md](docs/policies/15-container-no-extra-env-isolation.md)
 
-## Mandatory Flow (Summary)
-- Open a parent issue with formal functional analysis.
-- Add an operational plan comment.
-- Decompose into junior-executable tasks when possible.
-- Create one sub-issue per task and classify it as `basic` or `advanced` (`task` label remains required).
-- Before implementation, verify correct branch and ensure it is updated from base branch ([docs/policies/05-git-and-pr.md](docs/policies/05-git-and-pr.md)).
-- Publish architecture artifacts first ([docs/adr/](docs/adr) and [docs/diagrams/](docs/diagrams)).
-- Keep architecture diagrams only in [docs/diagrams/](docs/diagrams); ADRs must link them.
-- For boundary/integration changes, assess Hexagonal architecture and add required artifacts or explicit `N/A` rationale.
-- Implement with TDD for feature/bugfix code.
-- Run lint for changed artifacts when available; otherwise document `N/A` with reason in PR.
-- Open PR to `main` with links to issues, artifacts, and test evidence.
-- Complete mandatory review and open one sub-issue per finding.
-- Merge by squash only.
+## Workflow Snapshot (Non-Normative)
+Use this as onboarding only. Exact requirements are owned by policy modules.
+1. Open parent analysis issue and add the operational plan comment.
+2. Create one sub-issue per task from the plan.
+3. For `feat`/`fix`, publish architecture artifacts before implementation.
+4. Implement, validate (tests/lint), and open PR to `main`.
+5. Complete mandatory review and track each finding with one sub-issue.
 
 ## Required Templates
 - Parent issue: [.github/ISSUE_TEMPLATE/feature-or-bug-analysis.yml](.github/ISSUE_TEMPLATE/feature-or-bug-analysis.yml)
@@ -55,5 +48,9 @@ If container install/run workflows change, also read:
 - Mermaid diagrams: [docs/diagrams/](docs/diagrams)
 - Governance mindmap: [docs/diagrams/0001-governance-mindmap.md](docs/diagrams/0001-governance-mindmap.md)
 - Policies: [docs/policies/](docs/policies)
+
+## Governance Quality Gate
+Run before opening PR:
+- `make governance-check`
 
 If this file conflicts with a module in [docs/policies/](docs/policies), the module wins.

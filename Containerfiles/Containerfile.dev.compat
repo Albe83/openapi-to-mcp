@@ -1,21 +1,17 @@
-FROM python:3.11-slim-bookworm AS base
+FROM python:3.11-slim-bookworm AS builder
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PATH="/opt/venv/bin:${PATH}"
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
 WORKDIR /app
-RUN python -m venv /opt/venv
-
-FROM base AS builder
 
 ARG PIP_INSTALL_ARGS=""
 ARG PIP_INDEX_URL=""
 ARG PIP_EXTRA_INDEX_URL=""
 
 COPY pyproject.toml README.md ./
-RUN python - <<'PY' > /tmp/requirements.txt
+RUN python - <<'PY' > /app/requirements.txt
 import pathlib
 import tomllib
 
@@ -33,7 +29,7 @@ RUN set -eu; \
     [ -n "${PIP_INDEX_URL}" ] && pip_args="${pip_args} --index-url ${PIP_INDEX_URL}" || true; \
     [ -n "${PIP_EXTRA_INDEX_URL}" ] && pip_args="${pip_args} --extra-index-url ${PIP_EXTRA_INDEX_URL}" || true; \
     [ -n "${PIP_INSTALL_ARGS}" ] && pip_args="${pip_args} ${PIP_INSTALL_ARGS}" || true; \
-    pip install ${pip_args} -r /tmp/requirements.txt
+    pip install ${pip_args} -r /app/requirements.txt
 
 COPY src/ src/
 RUN set -eu; \
@@ -46,14 +42,13 @@ RUN set -eu; \
 FROM python:3.11-slim-bookworm AS runtime
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PATH="/opt/venv/bin:${PATH}"
+    PYTHONUNBUFFERED=1
 
 WORKDIR /app
 RUN groupadd --gid 10001 app \
     && useradd --uid 10001 --gid app --home-dir /app --create-home --shell /usr/sbin/nologin app
 
-COPY --from=builder /opt/venv /opt/venv
+COPY --from=builder /usr/local /usr/local
 COPY src/ src/
 COPY tests/ tests/
 

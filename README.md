@@ -95,7 +95,17 @@ PIP_INSTALL_ARGS="--trusted-host pypi.org --trusted-host files.pythonhosted.org"
 ./scripts/container-build.sh prod openapi-to-mcp:prod
 ```
 
+Container isolation rule:
+- Container images use the container itself as the isolation boundary.
+- Do not add nested env layers (for example `venv`) unless a technical exception is required and documented.
+
 Detailed rules and profile intent: [Containerfiles/README.md](Containerfiles/README.md)
+
+Governance checks:
+
+```bash
+make governance-check
+```
 
 ## Project Structure
 - `src/openapi_to_mcp/` core implementation
