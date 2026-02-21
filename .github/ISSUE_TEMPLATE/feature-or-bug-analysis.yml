@@ -1,0 +1,81 @@
+name: Feature or Bug Analysis
+description: Create a parent issue with formal functional analysis before any code implementation.
+title: "[ANALYSIS] "
+labels:
+  - analysis
+body:
+  - type: dropdown
+    id: work_type
+    attributes:
+      label: Work Type
+      description: Select the type of change.
+      options:
+        - Feature
+        - Bugfix
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem_or_need
+    attributes:
+      label: Problem / Need
+      description: Describe the business or technical need.
+      placeholder: What problem are we solving?
+    validations:
+      required: true
+
+  - type: textarea
+    id: functional_goals
+    attributes:
+      label: Functional Goals and Expected Outcome
+      description: Describe expected behavior after delivery.
+      placeholder: What must users or systems be able to do?
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope and Out of Scope
+      description: Define what is included and excluded.
+      placeholder: In scope / Out of scope
+    validations:
+      required: true
+
+  - type: textarea
+    id: constraints_dependencies_risks
+    attributes:
+      label: Constraints, Dependencies, Risks
+      description: List constraints, external dependencies, and major risks.
+      placeholder: Technical constraints, dependency risks, rollout risks
+    validations:
+      required: true
+
+  - type: textarea
+    id: impacted_components
+    attributes:
+      label: Impacted Components
+      description: List modules, services, or files likely to be affected.
+      placeholder: src/..., tests/..., docs/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Add testable acceptance criteria.
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: operational_plan_note
+    attributes:
+      label: Operational Plan Requirement
+      description: After creating this issue, add a comment with ordered tasks, decompose tasks to junior-executable units when possible, and create one labeled sub-issue per task.
+      value: "I confirm I will add an operational plan comment, decompose work into junior-executable tasks where possible, and create one sub-issue per task labeled `task` + `basic` or `advanced` before implementation."
+    validations:
+      required: true

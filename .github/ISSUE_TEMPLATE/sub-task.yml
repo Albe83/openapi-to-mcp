@@ -1,0 +1,98 @@
+name: Sub-task
+description: Create a sub-issue for one technical task from the approved operational plan, with complexity classification.
+title: "[TASK] "
+labels:
+  - task
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Apply exactly one complexity label to this issue after creation: `basic` or `advanced`.
+        Keep `task` label and ensure issue labels match the selected complexity below.
+
+  - type: input
+    id: parent_issue
+    attributes:
+      label: Parent Issue
+      description: Reference the parent analysis issue (for example, #123).
+      placeholder: "#123"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity_level
+    attributes:
+      label: Complexity Level
+      description: Select `basic` when the task is executable by a junior developer; otherwise use `advanced`.
+      options:
+        - basic
+        - advanced
+    validations:
+      required: true
+
+  - type: textarea
+    id: complexity_rationale
+    attributes:
+      label: Complexity Rationale
+      description: Explain why this classification is correct.
+      placeholder: |
+        basic: explain why a junior can complete the task with clear steps.
+        advanced: explain why further decomposition is not feasible or not appropriate.
+    validations:
+      required: true
+
+  - type: textarea
+    id: task_goal
+    attributes:
+      label: Task Goal
+      description: Describe one clear objective for this task.
+      placeholder: What this task must produce
+    validations:
+      required: true
+
+  - type: textarea
+    id: deliverable
+    attributes:
+      label: Deliverable
+      description: Define concrete output.
+      placeholder: Code/tests/docs/artifacts expected
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical_details
+    attributes:
+      label: Technical Details
+      description: Add implementation details, interfaces, and constraints.
+      placeholder: Modules touched, interfaces updated, constraints
+    validations:
+      required: true
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: List dependent tasks/issues/artifacts.
+      placeholder: Other sub-issues, ADRs, diagrams
+    validations:
+      required: true
+
+  - type: textarea
+    id: definition_of_done
+    attributes:
+      label: Definition of Done
+      description: Add objective completion criteria.
+      placeholder: |
+        - [ ] Criteria 1
+        - [ ] Criteria 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation_plan
+    attributes:
+      label: Validation Plan
+      description: Describe how the task will be validated (tests/checks/manual verification).
+      placeholder: Unit/integration tests, expected outputs
+    validations:
+      required: true
