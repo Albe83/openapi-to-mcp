@@ -51,9 +51,14 @@ mindmap
       21 M2M Dapr Pub/Sub Decoupling
         Dapr Pub/Sub default when possible
         ADR exception path
-      22 Metrics Endpoint and USE
-        Dedicated fetch endpoint
-        OpenTelemetry semantics and USE model
+      22 Metrics Transport Standard
+        OTLP export to platform Collector
+        Required telemetry resource attributes
+      23 Metrics Design USE/RED
+        Clear naming, description, explicit units
+        USE for bounded resources
+        RED for request-driven interfaces
+        Latency histograms with explicit buckets
       13 Container Build Rules
         Tool-agnostic build profiles
       14 Container RUN Mounts
@@ -72,5 +77,5 @@ mindmap
       CI Governance Job
         Policy word limit and index coverage
         Link checks and container isolation checks
-        Owner-phrase duplicate guards for 17/18/19/20/21/22
+        Owner-phrase duplicate guards for 17/18/19/20/21/22/23
 ```

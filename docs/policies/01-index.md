@@ -32,6 +32,7 @@ Use this index to load only the modules needed for the current task.
 - [20-persistence-dapr-statestore.md](20-persistence-dapr-statestore.md): Read when persistence flows are added or changed. Dapr StateStore default with ADR exception path.
 - [21-m2m-dapr-pubsub-decoupling.md](21-m2m-dapr-pubsub-decoupling.md): Read when broker publish/subscribe integrations are added or changed. Dapr Pub/Sub default with ADR exception path.
 - [22-metrics-transport-standard.md](22-metrics-transport-standard.md): Read when telemetry export behavior changes. Defines OTLP-to-Collector transport rules and required telemetry resource attributes.
+- [23-metrics-design-use-red.md](23-metrics-design-use-red.md): Read when metric semantics change. Covers naming, units, USE for bounded resources, and RED for request-driven interfaces.
 
 ## Task Entry Paths
 - Feature/Bugfix core path: `02` -> `03` -> `04` -> `05` -> `10` -> `07`.
@@ -44,7 +45,8 @@ Use this index to load only the modules needed for the current task.
 - If Event-Driven/PubSub contracts change: add `19`.
 - If persistence flow is added/changed: add `20`.
 - If event broker publish/subscribe integration changes: add `21`.
-- If application metrics/observability behavior changes: add `22`.
+- If telemetry export/transport behavior changes: add `22`.
+- If metric design changes (name/unit/USE/RED/histograms): add `23`.
 - If AI executes a labeled task/finding: add `16`.
 - If release activity is in scope: add `06`.
 - For ADR/docs/comments/code comments: always add `09`.

@@ -133,6 +133,7 @@ check_normative_owner_phrases() {
         "docs/policies/20-persistence-dapr-statestore.md|When possible, applications MUST decouple state persistence through Dapr StateStore."
         "docs/policies/21-m2m-dapr-pubsub-decoupling.md|When possible, applications MUST decouple message broker interactions through Dapr Pub/Sub."
         "docs/policies/22-metrics-transport-standard.md|All telemetry MUST be exported using OTLP to the platform-managed OpenTelemetry Collector."
+        "docs/policies/23-metrics-design-use-red.md|For request-driven interfaces, RED metrics (Rate, Errors, Duration) MUST be implemented."
     )
 
     for rule in "${rules[@]}"; do
