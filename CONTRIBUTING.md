@@ -27,6 +27,7 @@ For release work, also read:
 
 If container build artifacts change, also read:
 - [docs/policies/13-container-build-rules.md](docs/policies/13-container-build-rules.md)
+- [docs/policies/14-container-run-mounts.md](docs/policies/14-container-run-mounts.md)
 
 ## Mandatory Flow (Summary)
 - Open a parent issue with formal functional analysis.

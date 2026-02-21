@@ -11,6 +11,9 @@ Profiles:
 Environment:
   OCI_BUILDER  Optional. Force a specific OCI builder binary.
                If not set, auto-detects one of: docker, podman, nerdctl, buildah.
+  CONTAINERFILE_VARIANT  Optional. Select containerfile variant:
+                         - mount (default): uses RUN --mount enabled files.
+                         - compat: fallback without RUN --mount.
   PIP_INSTALL_ARGS     Optional. Extra pip arguments passed as build arg.
   PIP_INDEX_URL        Optional. pip index URL passed as build arg.
   PIP_EXTRA_INDEX_URL  Optional. pip extra index URL passed as build arg.
@@ -56,6 +59,7 @@ fi
 profile="$1"
 tag="$2"
 context="${3:-.}"
+variant="${CONTAINERFILE_VARIANT:-mount}"
 
 case "${profile}" in
 prod | dev | test) ;;
@@ -67,6 +71,13 @@ prod | dev | test) ;;
 esac
 
 containerfile="Containerfiles/Containerfile.${profile}"
+if [[ "${variant}" == "compat" ]]; then
+    containerfile="Containerfiles/Containerfile.${profile}.compat"
+elif [[ "${variant}" != "mount" ]]; then
+    echo "Unsupported CONTAINERFILE_VARIANT '${variant}'. Supported: mount, compat." >&2
+    exit 1
+fi
+
 if [[ ! -f "${containerfile}" ]]; then
     echo "Missing containerfile: ${containerfile}" >&2
     exit 1
@@ -91,6 +102,7 @@ fi
 
 echo "Using builder: ${builder}"
 echo "Profile: ${profile}"
+echo "Variant: ${variant}"
 echo "Tag: ${tag}"
 echo "Context: ${context}"
 if [[ ${#build_args[@]} -gt 0 ]]; then

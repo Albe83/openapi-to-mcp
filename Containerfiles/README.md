@@ -4,9 +4,10 @@ This directory defines OCI container build profiles for this repository.
 The design is tool-agnostic and works with any compatible OCI builder/runner.
 
 ## Profiles
-- `Containerfile.prod`: production runtime image.
-- `Containerfile.dev`: local development image.
-- `Containerfile.test`: lint and test image.
+- `Containerfile.prod`: production runtime image (`mount` variant).
+- `Containerfile.dev`: local development image (`mount` variant).
+- `Containerfile.test`: lint and test image (`mount` variant).
+- `Containerfile.<profile>.compat`: fallback variant without `RUN --mount`.
 
 ## Rules
 - Keep files in `Containerfiles/` only.
@@ -15,6 +16,10 @@ The design is tool-agnostic and works with any compatible OCI builder/runner.
 - Keep dependency install steps before app copy to improve cache reuse.
 - Keep build context small with `.dockerignore` and `.containerignore`.
 - Do not require one specific tool (Docker/Podman/Buildah/etc.).
+- For mutating dependency steps, use mount isolation when builder supports it:
+  - `type=cache` for cache directories.
+  - `type=tmpfs` for temp/log directories.
+- Use `.compat` only when mount syntax is not supported by the selected builder.
 
 ## Wrapper Scripts
 Use repository wrappers to keep commands consistent:
@@ -23,6 +28,13 @@ Use repository wrappers to keep commands consistent:
 ./scripts/container-build.sh prod openapi-to-mcp:prod
 ./scripts/container-build.sh dev openapi-to-mcp:dev
 ./scripts/container-build.sh test openapi-to-mcp:test
+```
+
+Variant selection:
+
+```bash
+CONTAINERFILE_VARIANT=mount  ./scripts/container-build.sh prod openapi-to-mcp:prod
+CONTAINERFILE_VARIANT=compat ./scripts/container-build.sh prod openapi-to-mcp:prod
 ```
 
 Smoke and quality checks:

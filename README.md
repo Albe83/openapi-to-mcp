@@ -75,6 +75,19 @@ OCI_BUILDER=podman ./scripts/container-build.sh prod openapi-to-mcp:prod
 OCI_RUNNER=nerdctl ./scripts/container-test.sh smoke openapi-to-mcp:prod
 ```
 
+Select variant (`mount` default, `compat` fallback when mount is unsupported):
+
+```bash
+CONTAINERFILE_VARIANT=mount ./scripts/container-build.sh prod openapi-to-mcp:prod
+CONTAINERFILE_VARIANT=compat ./scripts/container-build.sh prod openapi-to-mcp:prod
+```
+
+With `make`:
+
+```bash
+make CONTAINERFILE_VARIANT=compat container-build-prod
+```
+
 Optional PIP build args (only when needed by your environment):
 
 ```bash

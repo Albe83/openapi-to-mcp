@@ -17,6 +17,7 @@ Artifacts include `Containerfiles/*`, container wrapper scripts, and related doc
 - Do not require one specific container tool.
 - Build and run flows must support tool selection by environment variables.
 - Use neutral terms like OCI builder/runner in documentation.
+- Apply mount rules from `14` when builder support is available.
 
 ## Build Best Practices
 - Use multi-stage builds.

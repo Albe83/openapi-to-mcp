@@ -1,9 +1,9 @@
+# syntax=docker/dockerfile:1.7
 FROM python:3.11-slim-bookworm AS base
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PIP_NO_CACHE_DIR=1 \
     PATH="/opt/venv/bin:${PATH}"
 
 WORKDIR /app
@@ -16,7 +16,7 @@ ARG PIP_INDEX_URL=""
 ARG PIP_EXTRA_INDEX_URL=""
 
 COPY pyproject.toml README.md ./
-RUN python - <<'PY' > /tmp/requirements.txt
+RUN python - <<'PY' > /app/requirements.txt
 import pathlib
 import tomllib
 
@@ -29,20 +29,24 @@ deps.extend(optional.get("dev", []))
 for dep in deps:
     print(dep)
 PY
-RUN set -eu; \
+RUN --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=tmpfs,target=/tmp \
+    set -eu; \
     pip_args=""; \
     [ -n "${PIP_INDEX_URL}" ] && pip_args="${pip_args} --index-url ${PIP_INDEX_URL}" || true; \
     [ -n "${PIP_EXTRA_INDEX_URL}" ] && pip_args="${pip_args} --extra-index-url ${PIP_EXTRA_INDEX_URL}" || true; \
     [ -n "${PIP_INSTALL_ARGS}" ] && pip_args="${pip_args} ${PIP_INSTALL_ARGS}" || true; \
-    pip install ${pip_args} -r /tmp/requirements.txt
+    PIP_NO_CACHE_DIR=0 pip install ${pip_args} -r /app/requirements.txt
 
 COPY src/ src/
-RUN set -eu; \
+RUN --mount=type=cache,target=/root/.cache/pip \
+    --mount=type=tmpfs,target=/tmp \
+    set -eu; \
     pip_args=""; \
     [ -n "${PIP_INDEX_URL}" ] && pip_args="${pip_args} --index-url ${PIP_INDEX_URL}" || true; \
     [ -n "${PIP_EXTRA_INDEX_URL}" ] && pip_args="${pip_args} --extra-index-url ${PIP_EXTRA_INDEX_URL}" || true; \
     [ -n "${PIP_INSTALL_ARGS}" ] && pip_args="${pip_args} ${PIP_INSTALL_ARGS}" || true; \
-    pip install ${pip_args} --no-deps .
+    PIP_NO_CACHE_DIR=0 pip install ${pip_args} --no-deps .
 
 FROM python:3.11-slim-bookworm AS runtime
 

@@ -1,4 +1,5 @@
 IMAGE_NAME ?= openapi-to-mcp
+CONTAINERFILE_VARIANT ?= mount
 
 .PHONY: run test lint format \
 	container-build-prod container-build-dev container-build-test container-build-all \
@@ -17,13 +18,13 @@ format:
 	python3.11 -m ruff check --fix src tests
 
 container-build-prod:
-	./scripts/container-build.sh prod $(IMAGE_NAME):prod
+	CONTAINERFILE_VARIANT=$(CONTAINERFILE_VARIANT) ./scripts/container-build.sh prod $(IMAGE_NAME):prod
 
 container-build-dev:
-	./scripts/container-build.sh dev $(IMAGE_NAME):dev
+	CONTAINERFILE_VARIANT=$(CONTAINERFILE_VARIANT) ./scripts/container-build.sh dev $(IMAGE_NAME):dev
 
 container-build-test:
-	./scripts/container-build.sh test $(IMAGE_NAME):test
+	CONTAINERFILE_VARIANT=$(CONTAINERFILE_VARIANT) ./scripts/container-build.sh test $(IMAGE_NAME):test
 
 container-build-all: container-build-prod container-build-dev container-build-test
 
