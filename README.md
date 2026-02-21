@@ -1,74 +1,67 @@
 # OpenAPI to MCP
 
-## Project Goal
 OpenAPI to MCP exposes a generic REST API as MCP tools for AI agents.
-At startup, the server loads an OpenAPI specification and generates MCP tools from API operations.
-The runtime model is container-first, with Kubernetes as the primary deployment target.
-Main transport is HTTP-Streamable.
+At startup, the server loads an OpenAPI specification, validates it, maps operations, and registers tools.
+The main runtime target is HTTP-Streamable MCP.
 
-## How It Works
-1. Start the MCP server.
-2. Load an OpenAPI spec (local file or URL).
-3. Generate MCP tools from operations.
-4. Serve tools to agents via HTTP-Streamable MCP.
+## Current Implementation Status
+This repository now includes a working Python technical foundation:
+- FastAPI application bootstrap.
+- OpenAPI source loading from file path or URL.
+- Critical OpenAPI validation with warning support for non-critical gaps.
+- Operation mapping and MCP tool generation (`operationId` first, deterministic fallback).
+- Health endpoint (`GET /healthz`).
+- Local fallback MCP endpoint (`POST /mcp`) when FastMCP is not available.
 
-## Key Features
-- Dynamic tool generation from OpenAPI definitions.
-- Generic bridge between REST backends and MCP agents.
-- Containerized runtime design.
-- Kubernetes-oriented deployment model.
-- HTTP-Streamable-first integration path.
+Architecture and governance artifacts:
+- ADR: [docs/adr/0001-python-fastapi-fastmcp-bootstrap.md](docs/adr/0001-python-fastapi-fastmcp-bootstrap.md)
+- Diagrams: [docs/diagrams/](docs/diagrams)
+- Public API IDL: [docs/interfaces/0001-openapi-to-mcp-server-openapi.yaml](docs/interfaces/0001-openapi-to-mcp-server-openapi.yaml)
 
-## Architecture Overview
-- OpenAPI Loader: reads and validates the spec.
-- Tool Generator: maps operations into MCP tool contracts.
-- MCP Transport Layer: exposes tools through MCP protocol semantics.
-- HTTP-Streamable Interface: provides transport endpoints for clients.
+## Requirements
+- Python 3.11+
+- pip
+- Optional for native MCP transport: `mcp` package (`pip install -e .[mcp]`)
 
 ## Configuration
-Runtime configuration is environment-variable based.
+Set at least one source:
+- `OPENAPI_SPEC_PATH=/path/to/openapi.yaml`
+- `OPENAPI_SPEC_URL=https://example.com/openapi.yaml`
 
-| Variable | Required | Default | Description | Example |
-| --- | --- | --- | --- | --- |
-| `OPENAPI_SPEC_PATH` | No* | `""` | Local OpenAPI file path. | `/app/specs/petstore.yaml` |
-| `OPENAPI_SPEC_URL` | No* | `""` | Remote OpenAPI URL. | `https://api.example.com/openapi.json` |
-| `MCP_TRANSPORT` | No | `http-streamable` | MCP transport mode. | `http-streamable` |
-| `MCP_HOST` | No | `0.0.0.0` | Bind host. | `0.0.0.0` |
-| `MCP_PORT` | No | `8080` | Listening port. | `8080` |
-| `LOG_LEVEL` | No | `info` | Log verbosity. | `debug` |
+Optional:
+- `MCP_HOST` (default `0.0.0.0`)
+- `MCP_PORT` (default `8080`)
+- `LOG_LEVEL` (default `info`)
 
-\* Set at least one of `OPENAPI_SPEC_PATH` or `OPENAPI_SPEC_URL`.
+OpenAPI runtime rule:
+- Each operation must resolve a server URL from `servers` declared at operation, path, or root level.
 
-## Quickstart
-1. Provide an OpenAPI spec.
-2. Run the container with the required environment variables.
-3. Expose server port `MCP_PORT`.
-4. Connect an AI agent to the HTTP-Streamable MCP endpoint and verify tool discovery.
+## Run Locally
+```bash
+python3.11 -m pip install -e .[dev]
+OPENAPI_SPEC_PATH=tests/fixtures/sample-openapi.yaml python3.11 -m openapi_to_mcp.main
+```
 
-## Deployment on Kubernetes
-Recommended pattern:
-- `Deployment` for server replicas.
-- `Service` for network exposure.
-- `ConfigMap` for non-sensitive settings.
-- `Secret` for sensitive values (if/when auth is enabled).
-- Optional `Ingress` or API gateway for external access.
+## Build, Test, Lint
+```bash
+make test
+make lint
+```
+
+Or directly:
+```bash
+python3.11 -m pytest -q
+python3.11 -m ruff check src tests
+```
+
+## Project Structure
+- `src/openapi_to_mcp/` core implementation
+- `tests/` unit and integration tests
+- `docs/adr/` architecture decisions
+- `docs/diagrams/` Mermaid architecture diagrams
+- `docs/interfaces/` public API IDL contracts
+- `docs/policies/` contribution and governance rules
 
 ## Versioning
-Release versions follow Semantic Versioning (`SemVer 2.0.0`) using tags in the format `vMAJOR.MINOR.PATCH` (for example, `v1.2.0`).
-Pre-release tags are supported (`-alpha.N`, `-beta.N`, `-rc.N`).
-Full release and bump policy is defined in [docs/policies/06-versioning-release.md](docs/policies/06-versioning-release.md).
-
-## Contribution Workflow
-Contribution rules are modular to keep policy files short and AI-friendly.
-Use [CONTRIBUTING.md](CONTRIBUTING.md) as entrypoint, then follow [docs/policies/01-index.md](docs/policies/01-index.md).
-For feature/bugfix work, the mandatory sequence is lifecycle -> architecture-first -> TDD -> git/PR -> compliance modules.
-
-## Current Status
-The repository is in bootstrap phase and currently contains no production code, container build files, or Kubernetes manifests.
-This README defines the target architecture and operating model.
-
-## Roadmap
-- Stronger OpenAPI validation and error reporting.
-- Authentication and authorization support.
-- Observability (metrics, tracing, structured logs).
-- Tool metadata enrichment and caching.
+Releases follow SemVer (`vMAJOR.MINOR.PATCH`).
+Detailed rules: [docs/policies/06-versioning-release.md](docs/policies/06-versioning-release.md)

@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openapi-to-mcp"
+version = "0.1.0"
+description = "Expose generic REST APIs as MCP tools from OpenAPI contracts"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "OpenAPI to MCP Maintainers" }]
+dependencies = [
+  "fastapi>=0.116.0",
+  "httpx>=0.28.0",
+  "pydantic>=2.8.0",
+  "pyyaml>=6.0.0",
+  "uvicorn>=0.30.0",
+]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0.0"]
+dev = [
+  "pytest>=8.3.0",
+  "ruff>=0.8.0",
+]
+
+[project.scripts]
+openapi-to-mcp = "openapi_to_mcp.main:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]
+ignore = []
