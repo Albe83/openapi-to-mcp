@@ -30,6 +30,7 @@ For release work, also read:
 - Add an operational plan comment.
 - Decompose into junior-executable tasks when possible.
 - Create one sub-issue per task and classify it as `basic` or `advanced` (`task` label remains required).
+- Before implementation, verify correct branch and ensure it is updated from base branch (`05-git-and-pr.md`).
 - Publish architecture artifacts first (`docs/adr/` and `docs/diagrams/`).
 - Keep architecture diagrams only in `docs/diagrams/`; ADRs must link them.
 - For boundary/integration changes, assess Hexagonal architecture and add required artifacts or explicit `N/A` rationale.

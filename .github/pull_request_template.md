@@ -39,6 +39,10 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 ## Validation
 - [ ] Test commands run (or `N/A - <reason>`):
   - `...`
+- [ ] Task-start branch guard evidence:
+  - `git branch --show-current`
+  - `git fetch origin`
+  - `git merge --ff-only origin/main` (or equivalent)
 - [ ] Lint commands run for changed artifacts with available linter:
   - `...`
 - [ ] `N/A` with reason for changed artifacts without linter (if any):
@@ -65,6 +69,7 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 - [ ] PR targets `main`.
 - [ ] Branch follows `type/issue-id-slug`.
 - [ ] Conventional Commits used.
+- [ ] Task started on the correct branch and branch was synced with base before implementation.
 - [ ] For `feat`/`fix`, required lifecycle links are present (analysis issue + plan comment + sub-issues).
 - [ ] For `feat`/`fix`, class and sequence diagrams are in Markdown Mermaid and render in GitHub.
 - [ ] For `feat`/`fix`, diagram files are in `docs/diagrams/*.md` and linked in ADR and PR.

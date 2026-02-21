@@ -18,6 +18,7 @@ Before planning or coding:
 - Follow lifecycle policy: `docs/policies/02-lifecycle.md`.
 - Decompose work to junior-executable tasks where possible.
 - Label each task/finding sub-issue as `task` + exactly one of `basic` or `advanced`.
+- Before implementation, verify branch is correct and synced with base (`docs/policies/05-git-and-pr.md`).
 - Create architecture artifacts first: `docs/policies/03-architecture-first.md`.
 - Keep required architecture diagrams in `docs/diagrams/` and link them from ADRs.
 - For boundary/integration changes, apply Hexagonal assessment/rules: `docs/policies/12-hexagonal-architecture.md`.
