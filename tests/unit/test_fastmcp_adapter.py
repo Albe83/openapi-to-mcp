@@ -28,6 +28,10 @@ def test_fastmcp_adapter_native_streamable_app() -> None:
 
     adapter.register_tools([tool])
     app = adapter.streamable_http_app()
+    cached = adapter.streamable_http_app()
 
     assert app is not None
     assert callable(app)
+    assert app is cached
+    paths = [getattr(route, "path", None) for route in getattr(app, "routes", [])]
+    assert "/" in paths

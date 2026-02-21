@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import inspect
-from typing import Any, Callable, Dict
+from contextlib import asynccontextmanager
+from typing import Any, AsyncIterator, Callable, Dict
 
 from openapi_to_mcp.domain.models import GeneratedTool
 from openapi_to_mcp.errors import InvocationError, ToolRegistrationError
@@ -48,7 +49,12 @@ class FastMcpAdapter:
         self._invoker = invoker
         self._server_name = server_name
         self._native = FastMCP is not None
-        self._runtime = FastMCP(server_name) if self._native else _LocalMcpServer(server_name)
+        self._runtime = (
+            FastMCP(server_name, streamable_http_path="/")
+            if self._native
+            else _LocalMcpServer(server_name)
+        )
+        self._streamable_app: Any | None = None
 
     @property
     def supports_streamable_http(self) -> bool:
@@ -57,7 +63,24 @@ class FastMcpAdapter:
     def streamable_http_app(self) -> Any:
         if not self.supports_streamable_http:
             raise ToolRegistrationError("FastMCP streamable HTTP app is not available.")
-        return self._runtime.streamable_http_app()  # type: ignore[no-any-return]
+        if self._streamable_app is None:
+            self._streamable_app = self._runtime.streamable_http_app()
+        return self._streamable_app
+
+    @asynccontextmanager
+    async def native_lifespan(self) -> AsyncIterator[None]:
+        if not self.supports_streamable_http:
+            yield
+            return
+
+        streamable_app = self.streamable_http_app()
+        router = getattr(streamable_app, "router", None)
+        lifespan_context = getattr(router, "lifespan_context", None)
+        if lifespan_context is None:
+            raise ToolRegistrationError("FastMCP streamable app lifespan context is not available.")
+
+        async with lifespan_context(streamable_app):
+            yield
 
     def register_tools(self, tools: list[GeneratedTool]) -> None:
         for tool in tools:

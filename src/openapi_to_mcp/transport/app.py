@@ -55,6 +55,10 @@ def create_app(
         app.state.generation_report = report
         app.state.mcp_adapter = mcp_adapter
         app.state.mcp_native = mcp_adapter.supports_streamable_http
+        if mcp_adapter.supports_streamable_http:
+            async with mcp_adapter.native_lifespan():
+                yield
+            return
         yield
 
     app = FastAPI(title="openapi-to-mcp", version="0.0.1", lifespan=lifespan)
