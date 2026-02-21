@@ -32,6 +32,7 @@ Before planning or coding:
 - If model/schema changes: [docs/policies/08-domain-driven-design.md](docs/policies/08-domain-driven-design.md).
 - If public API changes: [docs/policies/11-public-api-idl.md](docs/policies/11-public-api-idl.md).
 - If boundaries/integrations/ports/adapters change: [docs/policies/12-hexagonal-architecture.md](docs/policies/12-hexagonal-architecture.md).
+- If container install/run workflows change: [docs/policies/13-container-build-rules.md](docs/policies/13-container-build-rules.md), [docs/policies/14-container-run-mounts.md](docs/policies/14-container-run-mounts.md), and [docs/policies/15-container-no-extra-env-isolation.md](docs/policies/15-container-no-extra-env-isolation.md).
 - For ADR/docs/comments/code comments: [docs/policies/09-language-simple-english.md](docs/policies/09-language-simple-english.md).
 
 ## Release Work

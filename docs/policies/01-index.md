@@ -24,6 +24,7 @@ For feature and bugfix code changes, policies are mandatory for humans and AI ag
 - [12-hexagonal-architecture.md](12-hexagonal-architecture.md): Hexagonal assessment/rules for boundary and integration changes.
 - [13-container-build-rules.md](13-container-build-rules.md): tool-agnostic container profile and build evidence rules.
 - [14-container-run-mounts.md](14-container-run-mounts.md): RUN mount isolation and compat fallback rules.
+- [15-container-no-extra-env-isolation.md](15-container-no-extra-env-isolation.md): avoid nested env isolation inside containers unless required.
 
 ## Default Paths
 - Feature/bugfix code: `02` -> `03` -> `04` -> `05` -> `10` -> `07`
@@ -31,7 +32,7 @@ For feature and bugfix code changes, policies are mandatory for humans and AI ag
 - For ADR/docs/comments/code comments: also read `09`.
 - If public API changes: also read `11`.
 - If boundaries/integrations/ports/adapters change: also read `12`.
-- If container build artifacts change: also read `13` and `14`.
+- If container install/run workflows change: also read `13`, `14`, and `15`.
 - Release activity: add `06`
 
 ## Context-Efficient Rule

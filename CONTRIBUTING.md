@@ -25,9 +25,10 @@ For ADR/docs/comments/code comments, also read:
 For release work, also read:
 - [docs/policies/06-versioning-release.md](docs/policies/06-versioning-release.md)
 
-If container build artifacts change, also read:
+If container install/run workflows change, also read:
 - [docs/policies/13-container-build-rules.md](docs/policies/13-container-build-rules.md)
 - [docs/policies/14-container-run-mounts.md](docs/policies/14-container-run-mounts.md)
+- [docs/policies/15-container-no-extra-env-isolation.md](docs/policies/15-container-no-extra-env-isolation.md)
 
 ## Mandatory Flow (Summary)
 - Open a parent issue with formal functional analysis.

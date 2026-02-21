@@ -6,14 +6,15 @@ Policy Owner: Engineering Maintainers
 A feature/bugfix change is done only when all are true:
 - Parent issue, plan comment, and required sub-issues exist.
 - ADR is referenced.
-- Class/sequence Mermaid files exist in [docs/diagrams/](../diagrams) and are linked.
+- Class/sequence Mermaid files exist in [docs/diagrams/](../diagrams).
 - ADR links required class/sequence diagram files.
-- If data model changed: JSON Schema exists in [docs/schemas/](../schemas) and is linked.
-- If public API changed: formal IDL exists in [docs/interfaces/](../interfaces) and is linked.
+- If data model changed: JSON Schema exists in [docs/schemas/](../schemas).
+- If public API changed: formal IDL exists in [docs/interfaces/](../interfaces).
 - If data model/schema changed: DDD assessment exists per `08`.
 - If DDD is applicable: UL/BC/Aggregates are documented and referenced.
 - If boundaries/integrations changed: Hexagonal assessment exists per `12`.
 - If Hexagonal is applicable: ADR mapping and dedicated diagram are referenced.
+- If container install/run workflows changed: compliance with `15` is evidenced.
 - New or updated ADR/docs/comments use simple English.
 - PR includes test and lint evidence per [04-testing-tdd.md](04-testing-tdd.md).
 - If no linter exists for a changed artifact type, PR includes `N/A` with reason.
@@ -28,7 +29,8 @@ A feature/bugfix change is done only when all are true:
 - Review/findings process not compliant with [10-review-and-findings.md](10-review-and-findings.md).
 - Data model change without schema update.
 - Public API change without IDL update.
-- Boundary/integration change without Hexagonal assessment/artifacts per `12`.
+- Boundary/integration change without Hexagonal assessment per `12`.
+- Container workflow change not compliant with `15`.
 - Missing test/lint evidence required by [04-testing-tdd.md](04-testing-tdd.md).
 - Task decomposition/labels not compliant with `02` or branch guard not compliant with `05`.
 - Finding issue labels not compliant with [10-review-and-findings.md](10-review-and-findings.md).
