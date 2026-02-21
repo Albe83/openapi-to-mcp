@@ -36,6 +36,9 @@ If application logging behavior changes, also read:
 If M2M protocol selection or constraints change, also read:
 - [docs/policies/18-m2m-protocol-selection.md](docs/policies/18-m2m-protocol-selection.md)
 
+If Event-Driven or Pub/Sub contracts change, also read:
+- [docs/policies/19-m2m-events-asyncapi-cloudevents.md](docs/policies/19-m2m-events-asyncapi-cloudevents.md)
+
 ## Workflow Snapshot (Non-Normative)
 Use this as onboarding only. Exact requirements are owned by policy modules.
 1. Open parent analysis issue and add the operational plan comment.

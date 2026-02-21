@@ -29,6 +29,8 @@ Applicability rule:
 - Logging policy evidence (Required if `yes`): compliance with `17` or `N/A - <reason>`
 - M2M protocol decision changed? `yes/no`
 - M2M protocol policy evidence (Required if `yes`): compliance with `18` + ADR/IDL links or `N/A - <reason>`
+- Event protocol/contract changed? `yes/no`
+- Event messaging policy evidence (Required if `yes`): compliance with `19` + ADR/IDL links or `N/A - <reason>`
 
 ## TDD Evidence (Required for `feat`/`fix`)
 If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
@@ -97,6 +99,7 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 - [ ] If policy `15` exception is used, technical rationale and impacted files/commands are documented.
 - [ ] If application logging behavior changed, compliance with `17` is evidenced.
 - [ ] If M2M protocol decision changed, compliance with `18` is evidenced.
+- [ ] If Event-Driven/PubSub contracts changed, compliance with `19` is evidenced.
 - [ ] New/updated ADR/docs/comments are written in simple English.
 - [ ] Any non-simple wording is justified when required for precision.
 - [ ] Mandatory review completed (author + independent reviewer).

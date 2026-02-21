@@ -124,12 +124,40 @@ check_container_native_isolation() {
     done
 }
 
+check_normative_owner_phrases() {
+    local rule owner phrase matches file
+    local -a rules=(
+        "docs/policies/17-logging-stdout-json.md|Application logs MUST be emitted to standard output"
+        "docs/policies/18-m2m-protocol-selection.md|For Command/Reply communication, the default protocol MUST be REST API with a formal OpenAPI contract."
+        "docs/policies/19-m2m-events-asyncapi-cloudevents.md|Event interfaces MUST be defined with AsyncAPI."
+    )
+
+    for rule in "${rules[@]}"; do
+        owner="${rule%%|*}"
+        phrase="${rule#*|}"
+        matches="$(rg -n -F "${phrase}" docs/policies/*.md 2>/dev/null | cut -d: -f1 | sort -u || true)"
+
+        if [[ -z "${matches}" ]]; then
+            fail "Owner phrase not found: ${owner}"
+            continue
+        fi
+
+        while IFS= read -r file; do
+            [[ -z "${file}" ]] && continue
+            if [[ "${file}" != "${owner}" ]]; then
+                fail "Normative phrase owned by ${owner} duplicated in ${file}."
+            fi
+        done <<< "${matches}"
+    done
+}
+
 check_policy_word_count
 check_policy_index_coverage
 if ! check_markdown_links; then
     fail "Broken markdown links detected."
 fi
 check_container_native_isolation
+check_normative_owner_phrases
 
 if ((failures > 0)); then
     echo "Governance checks failed (${failures})."

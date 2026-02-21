@@ -37,6 +37,14 @@ mindmap
         API-change trigger
       12 Hexagonal Architecture
         Boundary/integration trigger
+      17 Logging Stdout/JSON
+        stdout required, JSON preferred
+      18 M2M Command/Reply
+        REST/OpenAPI default
+        gRPC by ADR exception
+      19 M2M Event Messaging
+        AsyncAPI + CloudEvents default
+        ADR exception path
       13 Container Build Rules
         Tool-agnostic build profiles
       14 Container RUN Mounts
@@ -55,4 +63,5 @@ mindmap
       CI Governance Job
         Policy word limit and index coverage
         Link checks and container isolation checks
+        Owner-phrase duplicate guards for 17/18/19
 ```

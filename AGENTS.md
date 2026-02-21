@@ -33,6 +33,7 @@ All normative details are owned by these modules.
 - If AI executes a labeled task/finding (`basic`/`advanced`): [docs/policies/16-ai-agent-reasoning-level.md](docs/policies/16-ai-agent-reasoning-level.md).
 - If application logging behavior changes: [docs/policies/17-logging-stdout-json.md](docs/policies/17-logging-stdout-json.md).
 - If M2M protocol selection/constraints change: [docs/policies/18-m2m-protocol-selection.md](docs/policies/18-m2m-protocol-selection.md).
+- If Event-Driven/PubSub contracts change: [docs/policies/19-m2m-events-asyncapi-cloudevents.md](docs/policies/19-m2m-events-asyncapi-cloudevents.md).
 - For ADR/docs/comments/code comments: [docs/policies/09-language-simple-english.md](docs/policies/09-language-simple-english.md).
 
 ## Release Work

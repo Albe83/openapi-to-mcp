@@ -151,3 +151,6 @@ Application logging rules are defined in [docs/policies/17-logging-stdout-json.m
 
 ## M2M Protocol Selection Policy
 Protocol selection rules for machine-to-machine communication are defined in [docs/policies/18-m2m-protocol-selection.md](docs/policies/18-m2m-protocol-selection.md).
+
+## M2M Event Messaging Policy
+Event-Driven and Pub/Sub governance rules are defined in [docs/policies/19-m2m-events-asyncapi-cloudevents.md](docs/policies/19-m2m-events-asyncapi-cloudevents.md).

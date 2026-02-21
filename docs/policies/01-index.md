@@ -28,6 +28,7 @@ Feature/bugfix code changes must follow policies.
 - [16-ai-agent-reasoning-level.md](16-ai-agent-reasoning-level.md): AI reasoning level by `basic`/`advanced` complexity label.
 - [17-logging-stdout-json.md](17-logging-stdout-json.md): app logs to `stdout`; JSON single-line preferred; `stderr` only for critical/fatal.
 - [18-m2m-protocol-selection.md](18-m2m-protocol-selection.md): M2M Command/Reply defaults to REST/OpenAPI; gRPC by ADR exception.
+- [19-m2m-events-asyncapi-cloudevents.md](19-m2m-events-asyncapi-cloudevents.md): Event-Driven/PubSub defaults to AsyncAPI with CloudEvents.
 
 ## Default Paths
 - Feature/bugfix code: `02` -> `03` -> `04` -> `05` -> `10` -> `07`
@@ -39,6 +40,7 @@ Feature/bugfix code changes must follow policies.
 - If AI executes a labeled task/finding: also read `16`.
 - If application logging behavior changes: also read `17`.
 - If M2M protocol changes: also read `18`.
+- If Event-Driven or Pub/Sub contracts change: also read `19`.
 - Release activity: add `06`
 
 ## Context-Efficient Rule
