@@ -34,3 +34,8 @@ For feature and bugfix code changes, policies are mandatory for humans and AI ag
 ## Context-Efficient Rule
 Load only the modules needed for the active task.
 Do not load the full policy set unless auditing governance.
+
+## Visual Overview
+For a high-level governance map, see:
+`docs/diagrams/0001-governance-mindmap.md`
+This diagram is descriptive and does not replace normative policy text.

@@ -48,6 +48,7 @@ For release work, also read:
 ## Artifact Locations
 - ADRs: `docs/adr/`
 - Mermaid diagrams: `docs/diagrams/`
+- Governance mindmap: `docs/diagrams/0001-governance-mindmap.md`
 - Policies: `docs/policies/`
 
 If this file conflicts with a module in `docs/policies/`, the module wins.

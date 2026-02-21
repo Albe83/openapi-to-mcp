@@ -1,0 +1,45 @@
+# Governance Structure Mindmap
+
+- Parent issue: N/A - governance documentation update
+- ADR: N/A - policy-level governance overview
+- Purpose: Visual overview of policy modules and governance flow.
+
+```mermaid
+mindmap
+  root((Governance Model))
+    Entry Points
+      01 Index
+        Read order and module selection
+      00 Policy of Policies
+        Word limit and single-owner rules
+    Core Flow (feat/fix)
+      02 Lifecycle
+        Issue -> plan -> sub-issues
+        task + basic/advanced labels
+      03 Architecture First
+        ADR + Class/Sequence diagrams
+        Schema and conditional module links
+      04 Testing and TDD
+        Test-first and bug reproduction flow
+        Lint evidence or N/A reason
+      05 Git and PR
+        Trunk-based workflow and naming
+        Task-start branch guard
+      10 Review and Findings
+        Author + independent review
+        One sub-issue per finding
+      07 Compliance and DoD
+        Merge gate and escalation
+    Conditional Modules
+      08 DDD
+        Model/schema trigger
+      11 Public API IDL
+        API-change trigger
+      12 Hexagonal Architecture
+        Boundary/integration trigger
+      09 Simple English
+        ADR/docs/comments language rule
+    Release
+      06 Versioning and Release
+        SemVer and release rules
+```
