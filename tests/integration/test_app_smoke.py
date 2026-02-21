@@ -50,6 +50,13 @@ paths:
         assert health.status_code == 200
         assert health.json() == {"status": "ok"}
 
+        metrics = client.get("/metrics")
+        assert metrics.status_code == 200
+        assert "openmetrics-text" in metrics.headers.get("content-type", "")
+        metrics_body = metrics.text
+        assert "openapi_to_mcp_http_invoker_max_in_flight" in metrics_body
+        assert "openapi_to_mcp_http_connection_pool_max_connections" in metrics_body
+
         if not app.state.mcp_native:
             response = client.post("/mcp", json={"tool": "getPet", "arguments": {"petId": "123"}})
             assert response.status_code == 200

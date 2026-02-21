@@ -26,6 +26,18 @@ paths:
                   status:
                     type: string
                     enum: [ok]
+  /metrics:
+    get:
+      summary: OpenMetrics endpoint for runtime telemetry
+      operationId: getMetrics
+      responses:
+        '200':
+          description: OpenMetrics payload
+          content:
+            application/openmetrics-text:
+              schema:
+                type: string
+                description: OpenMetrics text format payload
   /mcp:
     post:
       summary: Streamable HTTP entrypoint for MCP messages

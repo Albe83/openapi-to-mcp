@@ -11,6 +11,7 @@ This repository now includes a working Python technical foundation:
 - Critical OpenAPI validation with warning support for non-critical gaps.
 - Operation mapping and MCP tool generation (`operationId` first, deterministic fallback).
 - Health endpoint (`GET /healthz`).
+- Metrics endpoint (`GET /metrics`) with OpenMetrics output.
 - Local fallback MCP endpoint (`POST /mcp`) when FastMCP is not available.
 
 Architecture and governance artifacts:
@@ -32,6 +33,9 @@ Optional:
 - `MCP_HOST` (default `0.0.0.0`)
 - `MCP_PORT` (default `8080`)
 - `LOG_LEVEL` (default `info`)
+- `HTTP_MAX_IN_FLIGHT` (default `128`)
+- `HTTP_MAX_CONNECTIONS` (default `100`)
+- `HTTP_MAX_KEEPALIVE_CONNECTIONS` (default `20`)
 
 OpenAPI runtime rule:
 - Each operation must resolve a server URL from `servers` declared at operation, path, or root level.
@@ -154,3 +158,6 @@ Protocol selection rules for machine-to-machine communication are defined in [do
 
 ## M2M Event Messaging Policy
 Event-Driven and Pub/Sub governance rules are defined in [docs/policies/19-m2m-events-asyncapi-cloudevents.md](docs/policies/19-m2m-events-asyncapi-cloudevents.md).
+
+## Metrics and Observability Policy
+Metrics exposure and USE-oriented observability rules are defined in [docs/policies/22-metrics-endpoint-opentelemetry-use.md](docs/policies/22-metrics-endpoint-opentelemetry-use.md).
