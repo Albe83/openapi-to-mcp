@@ -25,6 +25,9 @@ For ADR/docs/comments/code comments, also read:
 For release work, also read:
 - [docs/policies/06-versioning-release.md](docs/policies/06-versioning-release.md)
 
+If container build artifacts change, also read:
+- [docs/policies/13-container-build-rules.md](docs/policies/13-container-build-rules.md)
+
 ## Mandatory Flow (Summary)
 - Open a parent issue with formal functional analysis.
 - Add an operational plan comment.

@@ -54,9 +54,41 @@ python3.11 -m pytest -q
 python3.11 -m ruff check src tests
 ```
 
+## Container Builds (Tool-Agnostic OCI)
+Build container profiles with repository wrappers:
+
+```bash
+make container-build-all
+```
+
+Run smoke and quality checks:
+
+```bash
+make container-smoke-prod
+make container-quality-test
+```
+
+Override auto-detection when needed:
+
+```bash
+OCI_BUILDER=podman ./scripts/container-build.sh prod openapi-to-mcp:prod
+OCI_RUNNER=nerdctl ./scripts/container-test.sh smoke openapi-to-mcp:prod
+```
+
+Optional PIP build args (only when needed by your environment):
+
+```bash
+PIP_INSTALL_ARGS="--trusted-host pypi.org --trusted-host files.pythonhosted.org" \
+./scripts/container-build.sh prod openapi-to-mcp:prod
+```
+
+Detailed rules and profile intent: [Containerfiles/README.md](Containerfiles/README.md)
+
 ## Project Structure
 - `src/openapi_to_mcp/` core implementation
 - `tests/` unit and integration tests
+- `Containerfiles/` OCI container build profiles
+- `scripts/` automation wrappers (including OCI build/run wrappers)
 - `docs/adr/` architecture decisions
 - `docs/diagrams/` Mermaid architecture diagrams
 - `docs/interfaces/` public API IDL contracts

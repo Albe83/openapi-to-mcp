@@ -22,6 +22,7 @@ For feature and bugfix code changes, policies are mandatory for humans and AI ag
 - [10-review-and-findings.md](10-review-and-findings.md): mandatory review workflow and finding priorities.
 - [11-public-api-idl.md](11-public-api-idl.md): formal IDL rules for public API changes.
 - [12-hexagonal-architecture.md](12-hexagonal-architecture.md): Hexagonal assessment/rules for boundary and integration changes.
+- [13-container-build-rules.md](13-container-build-rules.md): tool-agnostic container profile and build evidence rules.
 
 ## Default Paths
 - Feature/bugfix code: `02` -> `03` -> `04` -> `05` -> `10` -> `07`
@@ -29,6 +30,7 @@ For feature and bugfix code changes, policies are mandatory for humans and AI ag
 - For ADR/docs/comments/code comments: also read `09`.
 - If public API changes: also read `11`.
 - If boundaries/integrations/ports/adapters change: also read `12`.
+- If container build artifacts change: also read `13`.
 - Release activity: add `06`
 
 ## Context-Efficient Rule
