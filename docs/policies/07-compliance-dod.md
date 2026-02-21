@@ -14,6 +14,7 @@ A feature/bugfix change is done only when all are true:
 - If application logging behavior changed: compliance with `17` is evidenced.
 - If Command/Reply M2M protocol changed: compliance with `18` is evidenced.
 - If Event-Driven/PubSub contracts changed: compliance with `19` is evidenced.
+- If telemetry export/transport behavior changed: compliance with `22` is evidenced.
 - New or updated ADR/docs/comments use simple English (`09`).
 - PR includes TDD/test/lint evidence per [04-testing-tdd.md](04-testing-tdd.md), with `N/A` rationale when needed.
 - Task decomposition/labels and branch guard comply with `02` and `05`.
@@ -24,7 +25,7 @@ A feature/bugfix change is done only when all are true:
 ## Non-Compliant Examples
 - Merge without mandatory review.
 - Missing required schema/IDL/architecture artifacts.
-- Missing conditional compliance evidence for `12`, `13`/`14`/`15`, `17`, `18`, or `19`.
+- Missing conditional compliance evidence for `12`, `13`/`14`/`15`, `17`, `18`, `19`, or `22`.
 - Missing TDD/test/lint evidence required by [04-testing-tdd.md](04-testing-tdd.md).
 - Task/finding labels or priorities not compliant with `02` or [10-review-and-findings.md](10-review-and-findings.md).
 - New or updated ADR/docs/comments not in simple English.

@@ -132,7 +132,7 @@ check_normative_owner_phrases() {
         "docs/policies/19-m2m-events-asyncapi-cloudevents.md|Event interfaces MUST be defined with AsyncAPI."
         "docs/policies/20-persistence-dapr-statestore.md|When possible, applications MUST decouple state persistence through Dapr StateStore."
         "docs/policies/21-m2m-dapr-pubsub-decoupling.md|When possible, applications MUST decouple message broker interactions through Dapr Pub/Sub."
-        "docs/policies/22-metrics-endpoint-opentelemetry-use.md|Applications MUST expose a dedicated metrics fetching endpoint."
+        "docs/policies/22-metrics-transport-standard.md|All telemetry MUST be exported using OTLP to the platform-managed OpenTelemetry Collector."
     )
 
     for rule in "${rules[@]}"; do

@@ -31,7 +31,7 @@ Use this index to load only the modules needed for the current task.
 - [19-m2m-events-asyncapi-cloudevents.md](19-m2m-events-asyncapi-cloudevents.md): Read for Event-Driven/PubSub contracts. AsyncAPI + CloudEvents default, ADR exception path.
 - [20-persistence-dapr-statestore.md](20-persistence-dapr-statestore.md): Read when persistence flows are added or changed. Dapr StateStore default with ADR exception path.
 - [21-m2m-dapr-pubsub-decoupling.md](21-m2m-dapr-pubsub-decoupling.md): Read when broker publish/subscribe integrations are added or changed. Dapr Pub/Sub default with ADR exception path.
-- [22-metrics-endpoint-opentelemetry-use.md](22-metrics-endpoint-opentelemetry-use.md): Read when application metrics exposure changes. Dedicated metrics endpoint plus OpenTelemetry/USE guidance.
+- [22-metrics-transport-standard.md](22-metrics-transport-standard.md): Read when telemetry export behavior changes. Defines OTLP-to-Collector transport rules and required telemetry resource attributes.
 
 ## Task Entry Paths
 - Feature/Bugfix core path: `02` -> `03` -> `04` -> `05` -> `10` -> `07`.

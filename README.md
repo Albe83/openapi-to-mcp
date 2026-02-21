@@ -159,5 +159,5 @@ Protocol selection rules for machine-to-machine communication are defined in [do
 ## M2M Event Messaging Policy
 Event-Driven and Pub/Sub governance rules are defined in [docs/policies/19-m2m-events-asyncapi-cloudevents.md](docs/policies/19-m2m-events-asyncapi-cloudevents.md).
 
-## Metrics and Observability Policy
-Metrics exposure and USE-oriented observability rules are defined in [docs/policies/22-metrics-endpoint-opentelemetry-use.md](docs/policies/22-metrics-endpoint-opentelemetry-use.md).
+## Metrics and Telemetry Transport Policy
+Telemetry export and transport rules are defined in [docs/policies/22-metrics-transport-standard.md](docs/policies/22-metrics-transport-standard.md).
