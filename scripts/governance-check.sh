@@ -135,7 +135,18 @@ check_normative_owner_phrases() {
     for rule in "${rules[@]}"; do
         owner="${rule%%|*}"
         phrase="${rule#*|}"
-        matches="$(rg -n -F "${phrase}" docs/policies/*.md 2>/dev/null | cut -d: -f1 | sort -u || true)"
+        matches=""
+        for file in docs/policies/*.md; do
+            if has_rg; then
+                if rg -Fq -- "${phrase}" "${file}"; then
+                    matches+="${file}"$'\n'
+                fi
+            else
+                if grep -Fq -- "${phrase}" "${file}"; then
+                    matches+="${file}"$'\n'
+                fi
+            fi
+        done
 
         if [[ -z "${matches}" ]]; then
             fail "Owner phrase not found: ${owner}"
