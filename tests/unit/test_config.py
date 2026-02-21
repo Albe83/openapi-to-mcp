@@ -22,6 +22,9 @@ def test_settings_defaults_and_path_precedence() -> None:
     assert settings.mcp_host == "0.0.0.0"
     assert settings.mcp_port == 8080
     assert settings.log_level == "info"
+    assert settings.http_max_in_flight == 128
+    assert settings.http_max_connections == 100
+    assert settings.http_max_keepalive_connections == 20
     assert settings.resolve_openapi_source() == ("path", "./spec.yaml")
 
 
@@ -33,3 +36,19 @@ def test_settings_invalid_port() -> None:
 def test_settings_invalid_log_level() -> None:
     with pytest.raises(ConfigurationError):
         Settings.from_env({"OPENAPI_SPEC_PATH": "./spec.yaml", "LOG_LEVEL": "verbose"})
+
+
+def test_settings_invalid_http_max_in_flight() -> None:
+    with pytest.raises(ConfigurationError):
+        Settings.from_env({"OPENAPI_SPEC_PATH": "./spec.yaml", "HTTP_MAX_IN_FLIGHT": "0"})
+
+
+def test_settings_invalid_http_keepalive_vs_connections() -> None:
+    with pytest.raises(ConfigurationError):
+        Settings.from_env(
+            {
+                "OPENAPI_SPEC_PATH": "./spec.yaml",
+                "HTTP_MAX_CONNECTIONS": "10",
+                "HTTP_MAX_KEEPALIVE_CONNECTIONS": "11",
+            }
+        )

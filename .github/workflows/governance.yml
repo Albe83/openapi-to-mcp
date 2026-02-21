@@ -20,3 +20,10 @@ jobs:
 
       - name: Governance Checks
         run: make governance-check
+
+      - name: PR Traceability Checks
+        if: github.event_name == 'pull_request'
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: bash ./scripts/pr-traceability-check.sh

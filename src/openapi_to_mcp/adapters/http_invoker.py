@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import asyncio
+from time import perf_counter
 from typing import Any, Callable, Dict, Optional
 from urllib.parse import quote
 
 import httpx
 
 from openapi_to_mcp.errors import InvocationError
+from openapi_to_mcp.metrics import RuntimeMetrics
 
 
 class HttpxInvokerAdapter:
@@ -17,9 +20,19 @@ class HttpxInvokerAdapter:
         self,
         timeout_seconds: float = 10.0,
         client_factory: Optional[Callable[[], httpx.AsyncClient]] = None,
+        metrics: RuntimeMetrics | None = None,
+        max_connections: int = 100,
+        max_keepalive_connections: int = 20,
+        max_in_flight: int = 128,
     ) -> None:
         self._timeout_seconds = timeout_seconds
         self._client_factory = client_factory
+        self._metrics = metrics
+        self._limits = httpx.Limits(
+            max_connections=max_connections,
+            max_keepalive_connections=max_keepalive_connections,
+        )
+        self._semaphore = asyncio.Semaphore(max_in_flight)
 
     async def invoke(self, binding: Dict[str, Any], payload: Dict[str, Any]) -> Dict[str, Any]:
         method = str(binding.get("method", "")).upper()
@@ -44,17 +57,27 @@ class HttpxInvokerAdapter:
         }
         json_body = payload.get("body")
 
-        async with self._make_client() as client:
+        wait_started = perf_counter()
+        async with self._semaphore:
+            wait_seconds = perf_counter() - wait_started
+            if self._metrics is not None:
+                self._metrics.on_invocation_started(wait_seconds=wait_seconds)
             try:
-                response = await client.request(
-                    method=method,
-                    url=url,
-                    params=query_params,
-                    headers=headers,
-                    json=json_body,
-                )
+                async with self._make_client() as client:
+                    response = await client.request(
+                        method=method,
+                        url=url,
+                        params=query_params,
+                        headers=headers,
+                        json=json_body,
+                    )
             except httpx.HTTPError as exc:
+                if self._metrics is not None:
+                    self._metrics.on_invocation_error()
                 raise InvocationError(f"HTTP invocation failed for {method} {url}.") from exc
+            finally:
+                if self._metrics is not None:
+                    self._metrics.on_invocation_finished()
 
         body: Any
         try:
@@ -71,7 +94,7 @@ class HttpxInvokerAdapter:
     def _make_client(self) -> httpx.AsyncClient:
         if self._client_factory is not None:
             return self._client_factory()
-        return httpx.AsyncClient(timeout=self._timeout_seconds)
+        return httpx.AsyncClient(timeout=self._timeout_seconds, limits=self._limits)
 
 
 def _build_url(server_url: str, path: str) -> str:

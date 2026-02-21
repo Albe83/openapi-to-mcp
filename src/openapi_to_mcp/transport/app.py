@@ -6,7 +6,7 @@ import logging
 from contextlib import asynccontextmanager
 from typing import Any, Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel, Field
 
 from openapi_to_mcp import __version__
@@ -18,6 +18,7 @@ from openapi_to_mcp.application.startup import StartupOrchestrator
 from openapi_to_mcp.application.tool_generator import ToolGenerationService
 from openapi_to_mcp.config import Settings
 from openapi_to_mcp.errors import InvocationError
+from openapi_to_mcp.metrics import RuntimeMetrics
 from openapi_to_mcp.ports import HttpInvokerPort, OpenApiSourcePort
 from openapi_to_mcp.transport.fastmcp_adapter import FastMcpAdapter
 
@@ -39,7 +40,16 @@ def create_app(
     """Create and configure the FastAPI application."""
 
     source = source_override or _build_openapi_source(settings)
-    invoker = invoker_override or HttpxInvokerAdapter()
+    metrics = RuntimeMetrics(
+        max_in_flight=settings.http_max_in_flight,
+        max_connections=settings.http_max_connections,
+    )
+    invoker = invoker_override or HttpxInvokerAdapter(
+        metrics=metrics,
+        max_connections=settings.http_max_connections,
+        max_keepalive_connections=settings.http_max_keepalive_connections,
+        max_in_flight=settings.http_max_in_flight,
+    )
     mcp_adapter = FastMcpAdapter(invoker=invoker)
     validator = OpenApiValidatorAdapter()
     mapper = OperationMapper()
@@ -60,6 +70,7 @@ def create_app(
         app.state.generation_report = report
         app.state.mcp_adapter = mcp_adapter
         app.state.mcp_native = mcp_adapter.supports_streamable_http
+        app.state.runtime_metrics = metrics
         logger.info(
             "bootstrap_completed",
             extra={
@@ -80,6 +91,11 @@ def create_app(
     @app.get("/healthz")
     async def healthz() -> dict[str, str]:
         return {"status": "ok"}
+
+    @app.get("/metrics")
+    async def metrics_endpoint() -> Response:
+        rendered = metrics.render()
+        return Response(content=rendered.payload, media_type=rendered.content_type)
 
     if mcp_adapter.supports_streamable_http:
         app.mount("", mcp_adapter.streamable_http_app())
