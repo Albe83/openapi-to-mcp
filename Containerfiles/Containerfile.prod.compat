@@ -46,6 +46,7 @@ RUN groupadd --gid 10001 app \
     && useradd --uid 10001 --gid app --home-dir /app --create-home --shell /usr/sbin/nologin app
 
 COPY --from=builder /usr/local /usr/local
+RUN python -m pip uninstall -y setuptools wheel
 
 USER app
 EXPOSE 8080

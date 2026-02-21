@@ -13,7 +13,35 @@ permissions:
   security-events: write
 
 jobs:
+  code-scanning-check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      enabled: ${{ steps.check.outputs.enabled }}
+    steps:
+      - name: Check Code Scanning Availability
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          status_code="$(curl -sS -o response.json -w '%{http_code}' \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/code-scanning/default-setup")"
+          if [[ "${status_code}" == "200" ]]; then
+            echo "enabled=true" >> "${GITHUB_OUTPUT}"
+            echo "Code scanning is enabled."
+          else
+            echo "enabled=false" >> "${GITHUB_OUTPUT}"
+            echo "Code scanning is not available for this repository (HTTP ${status_code})."
+            cat response.json
+          fi
+
   codeql:
+    needs: code-scanning-check
+    if: needs.code-scanning-check.outputs.enabled == 'true'
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -33,6 +61,14 @@ jobs:
 
       - name: Analyze
         uses: github/codeql-action/analyze@v3
+
+  codeql-unavailable:
+    needs: code-scanning-check
+    if: needs.code-scanning-check.outputs.enabled != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip CodeQL
+        run: echo "CodeQL skipped because GitHub Code Scanning is not enabled for this repository."
 
   trivy-fs:
     runs-on: ubuntu-latest

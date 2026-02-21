@@ -51,23 +51,23 @@ jobs:
           OCI_BUILDER: docker
           CONTAINERFILE_VARIANT: mount
         run: |
-          ./scripts/container-build.sh prod openapi-to-mcp:ci-prod-mount
-          ./scripts/container-build.sh test openapi-to-mcp:ci-test-mount
+          bash ./scripts/container-build.sh prod openapi-to-mcp:ci-prod-mount
+          bash ./scripts/container-build.sh test openapi-to-mcp:ci-test-mount
 
       - name: Build Prod/Test (compat variant)
         env:
           OCI_BUILDER: docker
           CONTAINERFILE_VARIANT: compat
         run: |
-          ./scripts/container-build.sh prod openapi-to-mcp:ci-prod-compat
-          ./scripts/container-build.sh test openapi-to-mcp:ci-test-compat
+          bash ./scripts/container-build.sh prod openapi-to-mcp:ci-prod-compat
+          bash ./scripts/container-build.sh test openapi-to-mcp:ci-test-compat
 
       - name: Quality Test Containers
         env:
           OCI_RUNNER: docker
         run: |
-          ./scripts/container-test.sh quality openapi-to-mcp:ci-test-mount
-          ./scripts/container-test.sh quality openapi-to-mcp:ci-test-compat
+          bash ./scripts/container-test.sh quality openapi-to-mcp:ci-test-mount
+          bash ./scripts/container-test.sh quality openapi-to-mcp:ci-test-compat
 
       - name: Smoke Test Prod Containers
         env:

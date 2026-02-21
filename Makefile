@@ -18,21 +18,21 @@ format:
 	python3.11 -m ruff check --fix src tests
 
 container-build-prod:
-	CONTAINERFILE_VARIANT=$(CONTAINERFILE_VARIANT) ./scripts/container-build.sh prod $(IMAGE_NAME):prod
+	CONTAINERFILE_VARIANT=$(CONTAINERFILE_VARIANT) bash ./scripts/container-build.sh prod $(IMAGE_NAME):prod
 
 container-build-dev:
-	CONTAINERFILE_VARIANT=$(CONTAINERFILE_VARIANT) ./scripts/container-build.sh dev $(IMAGE_NAME):dev
+	CONTAINERFILE_VARIANT=$(CONTAINERFILE_VARIANT) bash ./scripts/container-build.sh dev $(IMAGE_NAME):dev
 
 container-build-test:
-	CONTAINERFILE_VARIANT=$(CONTAINERFILE_VARIANT) ./scripts/container-build.sh test $(IMAGE_NAME):test
+	CONTAINERFILE_VARIANT=$(CONTAINERFILE_VARIANT) bash ./scripts/container-build.sh test $(IMAGE_NAME):test
 
 container-build-all: container-build-prod container-build-dev container-build-test
 
 container-smoke-prod:
-	./scripts/container-test.sh smoke $(IMAGE_NAME):prod
+	bash ./scripts/container-test.sh smoke $(IMAGE_NAME):prod
 
 container-quality-test:
-	./scripts/container-test.sh quality $(IMAGE_NAME):test
+	bash ./scripts/container-test.sh quality $(IMAGE_NAME):test
 
 governance-check:
-	./scripts/governance-check.sh
+	bash ./scripts/governance-check.sh
