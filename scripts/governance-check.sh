@@ -11,6 +11,20 @@ fail() {
     failures=$((failures + 1))
 }
 
+has_rg() {
+    command -v rg >/dev/null 2>&1
+}
+
+match_file_pattern() {
+    local pattern="$1"
+    local file="$2"
+    if has_rg; then
+        rg -n -e "${pattern}" "${file}" >/dev/null
+    else
+        grep -Eq "${pattern}" "${file}"
+    fi
+}
+
 check_policy_word_count() {
     local max_words=300
     local file count
@@ -96,8 +110,8 @@ PY
 check_container_native_isolation() {
     local file
     for file in Containerfiles/Containerfile*; do
-        if rg -n -e "python -m venv|virtualenv|/opt/venv/bin" "${file}" >/dev/null; then
-            if ! rg -n "policy15-exception" "${file}" >/dev/null; then
+        if match_file_pattern "python -m venv|virtualenv|/opt/venv/bin" "${file}"; then
+            if ! match_file_pattern "policy15-exception" "${file}"; then
                 fail "${file} uses nested env isolation without policy15 exception marker."
             fi
         fi
