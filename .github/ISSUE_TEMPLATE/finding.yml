@@ -1,0 +1,108 @@
+name: Finding
+description: Create one sub-issue for one review finding, with required labels and traceability.
+title: "[FINDING] "
+labels:
+  - task
+  - finding
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Keep labels `task` and `finding`.
+        Apply exactly one complexity label: `basic` or `advanced`.
+        Apply exactly one priority label: `priority:high`, `priority:medium`, or `priority:low`.
+
+  - type: input
+    id: related_pr
+    attributes:
+      label: Related PR
+      description: Link the PR where this finding was reported (for example, #45).
+      placeholder: "#45"
+    validations:
+      required: true
+
+  - type: input
+    id: parent_issue
+    attributes:
+      label: Parent Issue
+      description: Reference the parent analysis issue (for example, #123).
+      placeholder: "#123"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Finding Category
+      description: Select the category used in review.
+      options:
+        - Bug
+        - Security
+        - Optimization
+        - Code Quality
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority_level
+    attributes:
+      label: Priority Level
+      description: Select the priority and apply the matching priority label.
+      options:
+        - high
+        - medium
+        - low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complexity_level
+    attributes:
+      label: Complexity Level
+      description: Select `basic` for junior-executable work; otherwise select `advanced`.
+      options:
+        - basic
+        - advanced
+    validations:
+      required: true
+
+  - type: textarea
+    id: complexity_rationale
+    attributes:
+      label: Complexity Rationale
+      description: Explain why this complexity classification is correct.
+      placeholder: |
+        basic: explain why a junior can complete the task with clear steps.
+        advanced: explain why further decomposition is not feasible or not appropriate.
+    validations:
+      required: true
+
+  - type: textarea
+    id: finding_description
+    attributes:
+      label: Finding Description
+      description: Describe the finding and its impact.
+      placeholder: What is wrong and why it matters
+    validations:
+      required: true
+
+  - type: textarea
+    id: resolution_criteria
+    attributes:
+      label: Resolution Criteria
+      description: Define objective criteria to close this finding.
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: validation_plan
+    attributes:
+      label: Validation Plan
+      description: Describe tests/checks to prove the finding is resolved.
+      placeholder: Tests, lint, and manual checks
+    validations:
+      required: true

@@ -56,6 +56,8 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 - Findings outcome: `no findings` / `findings listed`
 - If outcome is `no findings`, include exact statement: `no findings`
 - If outcome is `findings listed`, fill one table row per finding.
+- For findings, create sub-issues with [.github/ISSUE_TEMPLATE/finding.yml](../.github/ISSUE_TEMPLATE/finding.yml).
+- Each finding sub-issue must include labels: `task`, `finding`, one of `basic`/`advanced`, and one priority label.
 
 | Finding | Category | Priority | Sub-issue |
 | --- | --- | --- | --- |
@@ -86,6 +88,7 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 - [ ] Mandatory review completed (author + independent reviewer).
 - [ ] Review outcome is explicit (`no findings` or findings listed in table).
 - [ ] If findings exist, one sub-issue exists for each finding.
+- [ ] If findings exist, each finding sub-issue has labels `task` + `finding` + exactly one `basic`/`advanced` + exactly one priority label.
 - [ ] Task/finding sub-issues use `task` + exactly one `basic`/`advanced` label.
 - [ ] `advanced` sub-issues include rationale for non-decomposable complexity.
 - [ ] Finding priorities use policy mapping (Bug/Security=High, Optimization/Code Quality=Medium, other=Low).

@@ -28,7 +28,7 @@ For each planned task, assign complexity target: `basic` (junior executable) or 
 Create one sub-issue per task using [.github/ISSUE_TEMPLATE/sub-task.yml](../../.github/ISSUE_TEMPLATE/sub-task.yml).
 Each task/finding sub-issue must have label `task` plus exactly one label: `basic` or `advanced`.
 If a sub-issue is `advanced`, document why further decomposition is not feasible or not appropriate.
-After implementation review, create one sub-issue per finding per [10-review-and-findings.md](10-review-and-findings.md) and apply the same labeling rule.
+After implementation review, create one sub-issue per finding per [10-review-and-findings.md](10-review-and-findings.md), using [.github/ISSUE_TEMPLATE/finding.yml](../../.github/ISSUE_TEMPLATE/finding.yml).
 
 ## Non-Compliant
 - Coding before parent issue + plan + sub-issues.
@@ -37,3 +37,4 @@ After implementation review, create one sub-issue per finding per [10-review-and
 - Sub-issue missing `basic`/`advanced` label classification.
 - `advanced` sub-issue without decomposition rationale.
 - Review findings without dedicated sub-issues.
+- Finding sub-issue labels not compliant with [10-review-and-findings.md](10-review-and-findings.md).
