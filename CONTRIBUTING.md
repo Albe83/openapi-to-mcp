@@ -30,6 +30,9 @@ If container install/run workflows change, also read:
 - [docs/policies/14-container-run-mounts.md](docs/policies/14-container-run-mounts.md)
 - [docs/policies/15-container-no-extra-env-isolation.md](docs/policies/15-container-no-extra-env-isolation.md)
 
+If application logging behavior changes, also read:
+- [docs/policies/17-logging-stdout-json.md](docs/policies/17-logging-stdout-json.md)
+
 ## Workflow Snapshot (Non-Normative)
 Use this as onboarding only. Exact requirements are owned by policy modules.
 1. Open parent analysis issue and add the operational plan comment.

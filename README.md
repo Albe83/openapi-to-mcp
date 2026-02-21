@@ -142,3 +142,9 @@ GHCR visibility prerequisite:
 ## Versioning
 Releases follow SemVer (`vMAJOR.MINOR.PATCH`).
 Detailed rules: [docs/policies/06-versioning-release.md](docs/policies/06-versioning-release.md)
+
+## Logging Policy
+Application logging rules are defined in [docs/policies/17-logging-stdout-json.md](docs/policies/17-logging-stdout-json.md):
+- logs to `stdout` are mandatory,
+- single-line JSON is preferred,
+- `stderr` is reserved for critical/fatal errors.
