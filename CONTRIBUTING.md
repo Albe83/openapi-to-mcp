@@ -33,6 +33,9 @@ If container install/run workflows change, also read:
 If application logging behavior changes, also read:
 - [docs/policies/17-logging-stdout-json.md](docs/policies/17-logging-stdout-json.md)
 
+If M2M protocol selection or constraints change, also read:
+- [docs/policies/18-m2m-protocol-selection.md](docs/policies/18-m2m-protocol-selection.md)
+
 ## Workflow Snapshot (Non-Normative)
 Use this as onboarding only. Exact requirements are owned by policy modules.
 1. Open parent analysis issue and add the operational plan comment.

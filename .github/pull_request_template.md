@@ -27,6 +27,8 @@ Applicability rule:
 - Container policy evidence (Required if `yes`): compliance with `13`/`14`/`15` or `N/A - <reason>`
 - Application logging behavior changed? `yes/no`
 - Logging policy evidence (Required if `yes`): compliance with `17` or `N/A - <reason>`
+- M2M protocol decision changed? `yes/no`
+- M2M protocol policy evidence (Required if `yes`): compliance with `18` + ADR/IDL links or `N/A - <reason>`
 
 ## TDD Evidence (Required for `feat`/`fix`)
 If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
@@ -94,6 +96,7 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 - [ ] If container install/run workflows changed, compliance with `13`/`14`/`15` is evidenced.
 - [ ] If policy `15` exception is used, technical rationale and impacted files/commands are documented.
 - [ ] If application logging behavior changed, compliance with `17` is evidenced.
+- [ ] If M2M protocol decision changed, compliance with `18` is evidenced.
 - [ ] New/updated ADR/docs/comments are written in simple English.
 - [ ] Any non-simple wording is justified when required for precision.
 - [ ] Mandatory review completed (author + independent reviewer).

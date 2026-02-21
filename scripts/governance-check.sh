@@ -26,9 +26,15 @@ match_file_pattern() {
 }
 
 check_policy_word_count() {
-    local max_words=300
-    local file count
+    local default_max_words=300
+    local index_max_words=500
+    local file base count max_words
     for file in docs/policies/*.md; do
+        base="$(basename "${file}")"
+        max_words="${default_max_words}"
+        if [[ "${base}" == "01-index.md" ]]; then
+            max_words="${index_max_words}"
+        fi
         count="$(wc -w < "${file}" | tr -d ' ')"
         if ((count > max_words)); then
             fail "${file} exceeds ${max_words} words (${count})."

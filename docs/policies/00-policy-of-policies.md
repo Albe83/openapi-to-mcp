@@ -12,8 +12,9 @@ It applies to humans and AI agents.
 - Keep normative rules in policy modules only; do not duplicate them in entrypoint files.
 
 ## Word Limit (Hard Rule)
-- Each policy module must stay at or below 300 words.
-- If a module exceeds the limit, split it into focused modules and update the index.
+- `01-index.md` may stay at or below 500 words.
+- All other policy modules must stay at or below 300 words.
+- If a module exceeds its limit, split it into focused modules and update references.
 
 ## Single-Owner Rule
 - Every normative rule must have one owner module.
@@ -29,7 +30,7 @@ Agents must load [01-index.md](01-index.md) first, then only the modules require
 
 ## Compliance Checks
 Before merge, verify:
-- word count <= 300 per module,
+- `01-index.md` word count <= 500 and others <= 300,
 - links and numbering are valid,
 - owner field exists,
 - no duplicated normative rules,

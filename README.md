@@ -148,3 +148,6 @@ Application logging rules are defined in [docs/policies/17-logging-stdout-json.m
 - logs to `stdout` are mandatory,
 - single-line JSON is preferred,
 - `stderr` is reserved for critical/fatal errors.
+
+## M2M Protocol Selection Policy
+Protocol selection rules for machine-to-machine communication are defined in [docs/policies/18-m2m-protocol-selection.md](docs/policies/18-m2m-protocol-selection.md).
