@@ -53,4 +53,12 @@ Use this as onboarding only. Exact requirements are owned by policy modules.
 Run before opening PR:
 - `make governance-check`
 
+## GitHub Actions Checks
+PRs to `main` are expected to pass:
+- Governance workflow
+- CI workflow
+- Security workflow
+
+Release workflow is triggered by SemVer tags only.
+
 If this file conflicts with a module in [docs/policies/](docs/policies), the module wins.

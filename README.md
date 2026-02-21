@@ -107,6 +107,23 @@ Governance checks:
 make governance-check
 ```
 
+## GitHub Pipelines
+This repository uses GitHub Actions with dedicated workflows:
+- Governance: [`.github/workflows/governance.yml`](.github/workflows/governance.yml)
+  - Runs governance consistency checks on PRs and `main`.
+- CI: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
+  - Runs lint/test plus container build/quality/smoke verification.
+- Security: [`.github/workflows/security.yml`](.github/workflows/security.yml)
+  - Runs CodeQL and Trivy scans (filesystem + container image).
+- Release: [`.github/workflows/release.yml`](.github/workflows/release.yml)
+  - Runs on SemVer tags, publishes image to GHCR, scans image, creates GitHub Release.
+
+Release trigger examples:
+```bash
+git tag v0.2.0
+git push origin v0.2.0
+```
+
 ## Project Structure
 - `src/openapi_to_mcp/` core implementation
 - `tests/` unit and integration tests
