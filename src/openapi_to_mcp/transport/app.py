@@ -57,7 +57,7 @@ def create_app(
         app.state.mcp_native = mcp_adapter.supports_streamable_http
         yield
 
-    app = FastAPI(title="openapi-to-mcp", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="openapi-to-mcp", version="0.0.1", lifespan=lifespan)
 
     @app.get("/healthz")
     async def healthz() -> dict[str, str]:
