@@ -1,0 +1,52 @@
+openapi: 3.1.0
+info:
+  title: OpenAPI to MCP Service API
+  version: 0.1.0
+  description: |
+    Public API contract for the OpenAPI-to-MCP runtime service.
+    Parent issue: #1
+    Related ADR: docs/adr/0001-python-fastapi-fastmcp-bootstrap.md
+    Change type: New public API
+servers:
+  - url: http://localhost:8080
+paths:
+  /healthz:
+    get:
+      summary: Liveness and readiness probe
+      operationId: getHealth
+      responses:
+        '200':
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [status]
+                properties:
+                  status:
+                    type: string
+                    enum: [ok]
+  /mcp:
+    post:
+      summary: Streamable HTTP entrypoint for MCP messages
+      operationId: postMcpMessage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: MCP JSON-RPC request envelope
+              additionalProperties: true
+      responses:
+        '200':
+          description: MCP response payload
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '400':
+          description: Invalid MCP request
+        '500':
+          description: Internal server error

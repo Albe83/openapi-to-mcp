@@ -1,0 +1,72 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: OpenAPI to MCP Core Domain Models
+description: |
+  Formal schema for core domain model artifacts introduced in bootstrap.
+  Parent issue: #1
+  Related ADR: docs/adr/0001-python-fastapi-fastmcp-bootstrap.md
+type: object
+required: [apiOperation, generatedTool, generationReport]
+properties:
+  apiOperation:
+    type: object
+    required: [method, path]
+    properties:
+      method:
+        type: string
+      path:
+        type: string
+      operationId:
+        type: string
+      summary:
+        type: string
+      parameters:
+        type: array
+        items:
+          type: object
+          additionalProperties: true
+      requestBodySchema:
+        type: object
+        additionalProperties: true
+    additionalProperties: false
+  generatedTool:
+    type: object
+    required: [name, description, inputSchema, binding]
+    properties:
+      name:
+        type: string
+        minLength: 1
+      description:
+        type: string
+      inputSchema:
+        type: object
+        additionalProperties: true
+      binding:
+        type: object
+        required: [method, path]
+        properties:
+          method:
+            type: string
+          path:
+            type: string
+        additionalProperties: true
+    additionalProperties: false
+  generationReport:
+    type: object
+    required: [generatedCount, skippedCount, errors, warnings]
+    properties:
+      generatedCount:
+        type: integer
+        minimum: 0
+      skippedCount:
+        type: integer
+        minimum: 0
+      errors:
+        type: array
+        items:
+          type: string
+      warnings:
+        type: array
+        items:
+          type: string
+    additionalProperties: false
+additionalProperties: false
