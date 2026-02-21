@@ -8,6 +8,8 @@ from typing import Mapping, Optional
 
 from .errors import ConfigurationError
 
+_ALLOWED_LOG_LEVELS = {"critical", "error", "warning", "info", "debug"}
+
 
 @dataclass(frozen=True)
 class Settings:
@@ -41,6 +43,9 @@ class Settings:
             raise ConfigurationError("MCP_PORT must be in range 1..65535.")
         if not self.mcp_host.strip():
             raise ConfigurationError("MCP_HOST must not be empty.")
+        if self.log_level not in _ALLOWED_LOG_LEVELS:
+            allowed = ", ".join(sorted(_ALLOWED_LOG_LEVELS))
+            raise ConfigurationError(f"LOG_LEVEL must be one of: {allowed}.")
 
     def resolve_openapi_source(self) -> tuple[str, str]:
         """Resolve source type and value with path precedence when both are set."""

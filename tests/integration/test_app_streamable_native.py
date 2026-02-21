@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 from fastapi.testclient import TestClient
 
+from openapi_to_mcp import __version__
 from openapi_to_mcp.config import Settings
 from openapi_to_mcp.transport.app import create_app
 
@@ -68,7 +69,7 @@ def test_native_streamable_request_uses_canonical_mcp_path_without_trailing_slas
             "params": {
                 "protocolVersion": "2025-03-26",
                 "capabilities": {},
-                "clientInfo": {"name": "pytest", "version": "0.0.1"},
+                "clientInfo": {"name": "pytest", "version": __version__},
             },
         }
 

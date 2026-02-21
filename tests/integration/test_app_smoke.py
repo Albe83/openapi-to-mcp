@@ -4,6 +4,7 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
+from openapi_to_mcp import __version__
 from openapi_to_mcp.config import Settings
 from openapi_to_mcp.transport.app import create_app
 
@@ -42,6 +43,7 @@ paths:
 
     settings = Settings.from_env({"OPENAPI_SPEC_PATH": str(spec_file)})
     app = create_app(settings, invoker_override=StubInvoker())
+    assert app.version == __version__
 
     with TestClient(app) as client:
         health = client.get("/healthz")

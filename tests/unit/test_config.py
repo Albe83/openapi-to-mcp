@@ -28,3 +28,8 @@ def test_settings_defaults_and_path_precedence() -> None:
 def test_settings_invalid_port() -> None:
     with pytest.raises(ConfigurationError):
         Settings.from_env({"OPENAPI_SPEC_PATH": "./spec.yaml", "MCP_PORT": "abc"})
+
+
+def test_settings_invalid_log_level() -> None:
+    with pytest.raises(ConfigurationError):
+        Settings.from_env({"OPENAPI_SPEC_PATH": "./spec.yaml", "LOG_LEVEL": "verbose"})

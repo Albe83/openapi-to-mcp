@@ -2,12 +2,14 @@
 
 from __future__ import annotations
 
+import logging
 from contextlib import asynccontextmanager
 from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
+from openapi_to_mcp import __version__
 from openapi_to_mcp.adapters.http_invoker import HttpxInvokerAdapter
 from openapi_to_mcp.adapters.openapi_source import FileOpenApiSourceAdapter, UrlOpenApiSourceAdapter
 from openapi_to_mcp.adapters.openapi_validator import OpenApiValidatorAdapter
@@ -18,6 +20,8 @@ from openapi_to_mcp.config import Settings
 from openapi_to_mcp.errors import InvocationError
 from openapi_to_mcp.ports import HttpInvokerPort, OpenApiSourcePort
 from openapi_to_mcp.transport.fastmcp_adapter import FastMcpAdapter
+
+logger = logging.getLogger(__name__)
 
 
 class FallbackToolCallRequest(BaseModel):
@@ -51,17 +55,27 @@ def create_app(
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
+        logger.info("bootstrap_started", extra={"event": "bootstrap_start"})
         report = orchestrator.bootstrap()
         app.state.generation_report = report
         app.state.mcp_adapter = mcp_adapter
         app.state.mcp_native = mcp_adapter.supports_streamable_http
+        logger.info(
+            "bootstrap_completed",
+            extra={
+                "event": "bootstrap_complete",
+                "generated_count": report.generated_count,
+                "warning_count": len(report.warnings),
+                "mcp_native": app.state.mcp_native,
+            },
+        )
         if mcp_adapter.supports_streamable_http:
             async with mcp_adapter.native_lifespan():
                 yield
             return
         yield
 
-    app = FastAPI(title="openapi-to-mcp", version="0.0.1", lifespan=lifespan)
+    app = FastAPI(title="openapi-to-mcp", version=__version__, lifespan=lifespan)
 
     @app.get("/healthz")
     async def healthz() -> dict[str, str]:
@@ -73,9 +87,17 @@ def create_app(
 
         @app.post("/mcp")
         async def fallback_mcp_endpoint(request: FallbackToolCallRequest) -> Any:
+            logger.info(
+                "fallback_tool_invoke",
+                extra={"event": "fallback_tool_invoke", "tool": request.tool},
+            )
             try:
                 return await mcp_adapter.invoke_fallback(request.tool, request.arguments)
             except InvocationError as exc:
+                logger.warning(
+                    "fallback_tool_not_found",
+                    extra={"event": "fallback_tool_not_found", "tool": request.tool},
+                )
                 raise HTTPException(status_code=404, detail=str(exc)) from exc
 
     return app
