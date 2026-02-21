@@ -29,6 +29,9 @@ Use this index to load only the modules needed for the current task.
 - [17-logging-stdout-json.md](17-logging-stdout-json.md): Read when logging behavior changes. Covers stdout-first and JSON single-line preference.
 - [18-m2m-protocol-selection.md](18-m2m-protocol-selection.md): Read for Command/Reply M2M protocol choices. REST/OpenAPI default, gRPC by ADR exception.
 - [19-m2m-events-asyncapi-cloudevents.md](19-m2m-events-asyncapi-cloudevents.md): Read for Event-Driven/PubSub contracts. AsyncAPI + CloudEvents default, ADR exception path.
+- [20-persistence-dapr-statestore.md](20-persistence-dapr-statestore.md): Read when persistence flows are added or changed. Dapr StateStore default with ADR exception path.
+- [21-m2m-dapr-pubsub-decoupling.md](21-m2m-dapr-pubsub-decoupling.md): Read when broker publish/subscribe integrations are added or changed. Dapr Pub/Sub default with ADR exception path.
+- [22-metrics-endpoint-opentelemetry-use.md](22-metrics-endpoint-opentelemetry-use.md): Read when application metrics exposure changes. Dedicated metrics endpoint plus OpenTelemetry/USE guidance.
 
 ## Task Entry Paths
 - Feature/Bugfix core path: `02` -> `03` -> `04` -> `05` -> `10` -> `07`.
@@ -39,6 +42,9 @@ Use this index to load only the modules needed for the current task.
 - If application logging behavior changes: add `17`.
 - If Command/Reply M2M protocol changes: add `18`.
 - If Event-Driven/PubSub contracts change: add `19`.
+- If persistence flow is added/changed: add `20`.
+- If event broker publish/subscribe integration changes: add `21`.
+- If application metrics/observability behavior changes: add `22`.
 - If AI executes a labeled task/finding: add `16`.
 - If release activity is in scope: add `06`.
 - For ADR/docs/comments/code comments: always add `09`.

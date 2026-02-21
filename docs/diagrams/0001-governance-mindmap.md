@@ -45,6 +45,15 @@ mindmap
       19 M2M Event Messaging
         AsyncAPI + CloudEvents default
         ADR exception path
+      20 Persistence via Dapr StateStore
+        Dapr StateStore default when possible
+        ADR exception path
+      21 M2M Dapr Pub/Sub Decoupling
+        Dapr Pub/Sub default when possible
+        ADR exception path
+      22 Metrics Endpoint and USE
+        Dedicated fetch endpoint
+        OpenTelemetry semantics and USE model
       13 Container Build Rules
         Tool-agnostic build profiles
       14 Container RUN Mounts
@@ -63,5 +72,5 @@ mindmap
       CI Governance Job
         Policy word limit and index coverage
         Link checks and container isolation checks
-        Owner-phrase duplicate guards for 17/18/19
+        Owner-phrase duplicate guards for 17/18/19/20/21/22
 ```
