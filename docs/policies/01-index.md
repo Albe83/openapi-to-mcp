@@ -2,46 +2,46 @@
 
 Policy Owner: Engineering Maintainers
 
-Entrypoint for contribution policy rules.
-Feature/bugfix code changes must follow policies.
+Entrypoint for governance policies.
+Use this index to load only the modules needed for the current task.
 
 ## Read Order
 1. [01-index.md](01-index.md)
 2. [00-policy-of-policies.md](00-policy-of-policies.md) (meta rules)
 3. Task-specific modules only
 
-## Quick Map
-- [02-lifecycle.md](02-lifecycle.md): issue -> task decomposition -> sub-issues -> PR flow.
-- [03-architecture-first.md](03-architecture-first.md): ADR + separate Mermaid class/sequence files + data model JSON Schema (YAML preferred).
-- [04-testing-tdd.md](04-testing-tdd.md): TDD + test/lint evidence rules.
-- [05-git-and-pr.md](05-git-and-pr.md): trunk workflow, branch naming, commits, PR, merge.
-- [06-versioning-release.md](06-versioning-release.md): SemVer and release rules.
-- [07-compliance-dod.md](07-compliance-dod.md): DoD checks and enforcement.
-- [08-domain-driven-design.md](08-domain-driven-design.md): DDD assessment/rules for model/schema changes.
-- [09-language-simple-english.md](09-language-simple-english.md): repository language rules.
-- [10-review-and-findings.md](10-review-and-findings.md): mandatory review workflow and finding priorities.
-- [11-public-api-idl.md](11-public-api-idl.md): formal IDL rules for public API changes.
-- [12-hexagonal-architecture.md](12-hexagonal-architecture.md): Hexagonal assessment/rules for boundary or integration changes.
-- [13-container-build-rules.md](13-container-build-rules.md): tool-agnostic container build profile.
-- [14-container-run-mounts.md](14-container-run-mounts.md): RUN mount isolation and compat fallback rules.
-- [15-container-no-extra-env-isolation.md](15-container-no-extra-env-isolation.md): avoid nested env isolation inside containers unless required.
-- [16-ai-agent-reasoning-level.md](16-ai-agent-reasoning-level.md): AI reasoning level by `basic`/`advanced` complexity label.
-- [17-logging-stdout-json.md](17-logging-stdout-json.md): app logs to `stdout`; JSON single-line preferred; `stderr` only for critical/fatal.
-- [18-m2m-protocol-selection.md](18-m2m-protocol-selection.md): M2M Command/Reply defaults to REST/OpenAPI; gRPC by ADR exception.
-- [19-m2m-events-asyncapi-cloudevents.md](19-m2m-events-asyncapi-cloudevents.md): Event-Driven/PubSub defaults to AsyncAPI with CloudEvents.
+## Module Catalog (When to Read / What It Covers)
+- [02-lifecycle.md](02-lifecycle.md): Read for any `feat`/`fix`. Covers issue -> plan -> sub-issues flow and `basic`/`advanced` task labels.
+- [03-architecture-first.md](03-architecture-first.md): Read when solution design is needed. Covers ADR-first flow, diagrams, schemas, and IDL linkage.
+- [04-testing-tdd.md](04-testing-tdd.md): Read for implementation/testing work. Covers TDD, bug reproduction-first, and lint/test evidence.
+- [05-git-and-pr.md](05-git-and-pr.md): Read when creating branches, commits, and PRs. Covers trunk rules, naming, branch guard, merge policy.
+- [06-versioning-release.md](06-versioning-release.md): Read for release work. Covers SemVer tags, bump logic, and release rationale.
+- [07-compliance-dod.md](07-compliance-dod.md): Read before merge. Defines Definition of Done and compliance gate expectations.
+- [08-domain-driven-design.md](08-domain-driven-design.md): Read if model/schema changes. Covers DDD applicability and required outputs.
+- [09-language-simple-english.md](09-language-simple-english.md): Read for ADR/docs/comments. Defines simple-English repository language rules.
+- [10-review-and-findings.md](10-review-and-findings.md): Read for review phase. Covers mandatory review flow, findings, priorities, labels.
+- [11-public-api-idl.md](11-public-api-idl.md): Read if public API changes. Covers formal IDL requirements and traceability.
+- [12-hexagonal-architecture.md](12-hexagonal-architecture.md): Read if boundaries/integrations/ports/adapters change. Covers Hexagonal assessment and artifacts.
+- [13-container-build-rules.md](13-container-build-rules.md): Read for container build profile decisions and evidence.
+- [14-container-run-mounts.md](14-container-run-mounts.md): Read for `RUN` mount usage, cache/tmpfs isolation, and compat fallback.
+- [15-container-no-extra-env-isolation.md](15-container-no-extra-env-isolation.md): Read for container runtime/tool env isolation policy and exceptions.
+- [16-ai-agent-reasoning-level.md](16-ai-agent-reasoning-level.md): Read when AI works on labeled tasks/findings. Maps `basic`/`advanced` to reasoning level.
+- [17-logging-stdout-json.md](17-logging-stdout-json.md): Read when logging behavior changes. Covers stdout-first and JSON single-line preference.
+- [18-m2m-protocol-selection.md](18-m2m-protocol-selection.md): Read for Command/Reply M2M protocol choices. REST/OpenAPI default, gRPC by ADR exception.
+- [19-m2m-events-asyncapi-cloudevents.md](19-m2m-events-asyncapi-cloudevents.md): Read for Event-Driven/PubSub contracts. AsyncAPI + CloudEvents default, ADR exception path.
 
-## Default Paths
-- Feature/bugfix code: `02` -> `03` -> `04` -> `05` -> `10` -> `07`
-- If model/schema changes: also read `08`.
-- For ADR/docs/comments/code comments: read `09`.
-- If public API changes: also read `11`.
-- If boundaries/integrations/ports/adapters change: also read `12`.
-- If container install/run workflows change: also read `13`, `14`, and `15`.
-- If AI executes a labeled task/finding: also read `16`.
-- If application logging behavior changes: also read `17`.
-- If M2M protocol changes: also read `18`.
-- If Event-Driven or Pub/Sub contracts change: also read `19`.
-- Release activity: add `06`
+## Task Entry Paths
+- Feature/Bugfix core path: `02` -> `03` -> `04` -> `05` -> `10` -> `07`.
+- If model/schema changes: add `08`.
+- If public API changes: add `11`.
+- If boundaries/integrations/ports/adapters change: add `12`.
+- If container install/run workflows change: add `13`, `14`, `15`.
+- If application logging behavior changes: add `17`.
+- If Command/Reply M2M protocol changes: add `18`.
+- If Event-Driven/PubSub contracts change: add `19`.
+- If AI executes a labeled task/finding: add `16`.
+- If release activity is in scope: add `06`.
+- For ADR/docs/comments/code comments: always add `09`.
 
 ## Context-Efficient Rule
 Load only modules needed for the active task.
