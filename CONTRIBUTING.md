@@ -1,38 +1,38 @@
 # Contributing (Entry Point)
 
 This file is the onboarding entry point.
-The normative policy source of truth is the policy set in `docs/policies/`.
-Meta-governance is defined in `docs/policies/00-policy-of-policies.md`.
+The normative policy source of truth is the policy set in [docs/policies/](docs/policies).
+Meta-governance is defined in [docs/policies/00-policy-of-policies.md](docs/policies/00-policy-of-policies.md).
 
 ## Read This First
 For feature and bugfix code changes, start from:
-1. `docs/policies/01-index.md`
-2. `docs/policies/02-lifecycle.md`
-3. `docs/policies/03-architecture-first.md`
-4. `docs/policies/04-testing-tdd.md`
-5. `docs/policies/05-git-and-pr.md`
-6. `docs/policies/10-review-and-findings.md`
-7. `docs/policies/07-compliance-dod.md`
+1. [docs/policies/01-index.md](docs/policies/01-index.md)
+2. [docs/policies/02-lifecycle.md](docs/policies/02-lifecycle.md)
+3. [docs/policies/03-architecture-first.md](docs/policies/03-architecture-first.md)
+4. [docs/policies/04-testing-tdd.md](docs/policies/04-testing-tdd.md)
+5. [docs/policies/05-git-and-pr.md](docs/policies/05-git-and-pr.md)
+6. [docs/policies/10-review-and-findings.md](docs/policies/10-review-and-findings.md)
+7. [docs/policies/07-compliance-dod.md](docs/policies/07-compliance-dod.md)
 
 If model/schema changes, also read:
-- `docs/policies/08-domain-driven-design.md`
-- `docs/policies/11-public-api-idl.md` (if public API changes)
-- `docs/policies/12-hexagonal-architecture.md` (if boundaries/integrations/ports/adapters change)
+- [docs/policies/08-domain-driven-design.md](docs/policies/08-domain-driven-design.md)
+- [docs/policies/11-public-api-idl.md](docs/policies/11-public-api-idl.md) (if public API changes)
+- [docs/policies/12-hexagonal-architecture.md](docs/policies/12-hexagonal-architecture.md) (if boundaries/integrations/ports/adapters change)
 
 For ADR/docs/comments/code comments, also read:
-- `docs/policies/09-language-simple-english.md`
+- [docs/policies/09-language-simple-english.md](docs/policies/09-language-simple-english.md)
 
 For release work, also read:
-- `docs/policies/06-versioning-release.md`
+- [docs/policies/06-versioning-release.md](docs/policies/06-versioning-release.md)
 
 ## Mandatory Flow (Summary)
 - Open a parent issue with formal functional analysis.
 - Add an operational plan comment.
 - Decompose into junior-executable tasks when possible.
 - Create one sub-issue per task and classify it as `basic` or `advanced` (`task` label remains required).
-- Before implementation, verify correct branch and ensure it is updated from base branch (`05-git-and-pr.md`).
-- Publish architecture artifacts first (`docs/adr/` and `docs/diagrams/`).
-- Keep architecture diagrams only in `docs/diagrams/`; ADRs must link them.
+- Before implementation, verify correct branch and ensure it is updated from base branch ([docs/policies/05-git-and-pr.md](docs/policies/05-git-and-pr.md)).
+- Publish architecture artifacts first ([docs/adr/](docs/adr) and [docs/diagrams/](docs/diagrams)).
+- Keep architecture diagrams only in [docs/diagrams/](docs/diagrams); ADRs must link them.
 - For boundary/integration changes, assess Hexagonal architecture and add required artifacts or explicit `N/A` rationale.
 - Implement with TDD for feature/bugfix code.
 - Run lint for changed artifacts when available; otherwise document `N/A` with reason in PR.
@@ -41,14 +41,14 @@ For release work, also read:
 - Merge by squash only.
 
 ## Required Templates
-- Parent issue: `.github/ISSUE_TEMPLATE/feature-or-bug-analysis.yml`
-- Sub-task issue: `.github/ISSUE_TEMPLATE/sub-task.yml`
-- Pull request: `.github/pull_request_template.md`
+- Parent issue: [.github/ISSUE_TEMPLATE/feature-or-bug-analysis.yml](.github/ISSUE_TEMPLATE/feature-or-bug-analysis.yml)
+- Sub-task issue: [.github/ISSUE_TEMPLATE/sub-task.yml](.github/ISSUE_TEMPLATE/sub-task.yml)
+- Pull request: [.github/pull_request_template.md](.github/pull_request_template.md)
 
 ## Artifact Locations
-- ADRs: `docs/adr/`
-- Mermaid diagrams: `docs/diagrams/`
-- Governance mindmap: `docs/diagrams/0001-governance-mindmap.md`
-- Policies: `docs/policies/`
+- ADRs: [docs/adr/](docs/adr)
+- Mermaid diagrams: [docs/diagrams/](docs/diagrams)
+- Governance mindmap: [docs/diagrams/0001-governance-mindmap.md](docs/diagrams/0001-governance-mindmap.md)
+- Policies: [docs/policies/](docs/policies)
 
-If this file conflicts with a module in `docs/policies/`, the module wins.
+If this file conflicts with a module in [docs/policies/](docs/policies), the module wins.

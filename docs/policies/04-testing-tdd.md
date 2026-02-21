@@ -22,7 +22,7 @@ Bugfix PRs must include reproduction test, pre-fix failure evidence, and post-fi
 Run lint for each changed artifact when a matching linter exists.
 If no linter exists for a changed artifact type, record explicit `N/A` with reason in PR validation.
 
-Use `.github/pull_request_template.md`.
+Use [.github/pull_request_template.md](../../.github/pull_request_template.md).
 
 ## Scope
 Mandatory for feature and bugfix code changes.

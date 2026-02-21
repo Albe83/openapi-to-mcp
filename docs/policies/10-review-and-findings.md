@@ -11,9 +11,9 @@ Every code change must include a mandatory review before PR merge.
 
 ## Finding Management
 - Each finding must create one dedicated sub-issue.
-- Use `.github/ISSUE_TEMPLATE/sub-task.yml` for tracking.
+- Use [.github/ISSUE_TEMPLATE/sub-task.yml](../../.github/ISSUE_TEMPLATE/sub-task.yml) for tracking.
 - Each sub-issue must link the PR and describe resolution criteria.
-- Finding sub-issues must follow task decomposition/labeling rules in `02-lifecycle.md`.
+- Finding sub-issues must follow task decomposition/labeling rules in [02-lifecycle.md](02-lifecycle.md).
 
 ## Priority Rules
 - High: Bug, Security.
@@ -34,6 +34,6 @@ If no findings are detected, PR must explicitly state "no findings".
 ## Non-Compliant
 - Merge without mandatory review.
 - Finding without dedicated sub-issue.
-- Finding sub-issue not compliant with `02-lifecycle.md`.
+- Finding sub-issue not compliant with [02-lifecycle.md](02-lifecycle.md).
 - Bug/Security finding not marked High.
 - Optimization/Code Quality finding not marked Medium.

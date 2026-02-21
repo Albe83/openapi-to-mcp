@@ -56,11 +56,11 @@ Recommended pattern:
 ## Versioning
 Release versions follow Semantic Versioning (`SemVer 2.0.0`) using tags in the format `vMAJOR.MINOR.PATCH` (for example, `v1.2.0`).
 Pre-release tags are supported (`-alpha.N`, `-beta.N`, `-rc.N`).
-Full release and bump policy is defined in `docs/policies/06-versioning-release.md`.
+Full release and bump policy is defined in [docs/policies/06-versioning-release.md](docs/policies/06-versioning-release.md).
 
 ## Contribution Workflow
 Contribution rules are modular to keep policy files short and AI-friendly.
-Use `CONTRIBUTING.md` as entrypoint, then follow `docs/policies/01-index.md`.
+Use [CONTRIBUTING.md](CONTRIBUTING.md) as entrypoint, then follow [docs/policies/01-index.md](docs/policies/01-index.md).
 For feature/bugfix work, the mandatory sequence is lifecycle -> architecture-first -> TDD -> git/PR -> compliance modules.
 
 ## Current Status

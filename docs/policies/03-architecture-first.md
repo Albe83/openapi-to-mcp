@@ -5,15 +5,15 @@ Policy Owner: Engineering Maintainers
 Architecture artifacts are required before feature/bugfix implementation.
 
 ## Required Artifacts
-- At least one ADR in `docs/adr/`.
-- One Class Diagram in Markdown Mermaid in `docs/diagrams/`.
-- One Sequence Diagram in Markdown Mermaid in `docs/diagrams/`.
-- ADR must link required diagram files in `docs/diagrams/`.
-- If data model changes: JSON Schema in `docs/schemas/`.
-- If public API changes: IDL contract in `docs/interfaces/`.
+- At least one ADR in [docs/adr/](../adr).
+- One Class Diagram in Markdown Mermaid in [docs/diagrams/](../diagrams).
+- One Sequence Diagram in Markdown Mermaid in [docs/diagrams/](../diagrams).
+- ADR must link required diagram files in [docs/diagrams/](../diagrams).
+- If data model changes: JSON Schema in [docs/schemas/](../schemas).
+- If public API changes: IDL contract in [docs/interfaces/](../interfaces).
 
 ## Diagram as Code Rule
-- Diagrams are code in Markdown files under `docs/diagrams/`.
+- Diagrams are code in Markdown files under [docs/diagrams/](../diagrams).
 - Use fenced ` ```mermaid ` blocks.
 - Required diagrams cannot use `.mmd`.
 - Diagrams must render directly in GitHub UI.
@@ -24,7 +24,7 @@ Architecture artifacts are required before feature/bugfix implementation.
 - Diagram files: title, purpose, parent issue, ADR reference.
 - If data model changes: schema entities align with the Class Diagram.
 - If data model/schema changes: apply `08`; if boundaries/ports/adapters change, apply `12`.
-- If public API changes: apply `11-public-api-idl.md`.
+- If public API changes: apply [11-public-api-idl.md](11-public-api-idl.md).
 - Prefer YAML schemas; JSON allowed when needed.
 
 ## Execution Rule
@@ -42,7 +42,7 @@ If architecture decisions change during delivery:
 
 ## Non-Compliant
 - No ADR before coding.
-- Missing class or sequence diagram file in `docs/diagrams/`.
+- Missing class or sequence diagram file in [docs/diagrams/](../diagrams).
 - Diagram file not written as Markdown Mermaid.
 - ADR missing links to required diagram files.
 - Data model changed without JSON Schema update.

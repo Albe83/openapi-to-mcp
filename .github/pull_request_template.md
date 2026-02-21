@@ -76,8 +76,8 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 - [ ] For `feat`/`fix` boundary/integration changes, Hexagonal applicability is assessed.
 - [ ] If Hexagonal is applicable, ADR mapping + dedicated Hexagonal diagram are linked.
 - [ ] If Hexagonal is not applicable, explicit `N/A` rationale is provided.
-- [ ] If data model changed, JSON Schema is updated in `docs/schemas/` (YAML preferred).
-- [ ] If public API changed, formal IDL is updated in `docs/interfaces/` and linked.
+- [ ] If data model changed, JSON Schema is updated in [docs/schemas/](../docs/schemas) (YAML preferred).
+- [ ] If public API changed, formal IDL is updated in [docs/interfaces/](../docs/interfaces) and linked.
 - [ ] If IDL format supports YAML, YAML is preferred (JSON only if needed).
 - [ ] If data model/schema changed, DDD applicability is assessed.
 - [ ] If DDD is applicable, UL/BC/Aggregates are documented and linked.

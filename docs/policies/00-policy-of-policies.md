@@ -3,7 +3,7 @@
 Policy Owner: Engineering Maintainers
 
 ## Purpose and Scope
-This policy governs how all files in `docs/policies/` are authored, changed, and consumed.
+This policy governs how all files in [docs/policies/](.) are authored, changed, and consumed.
 It applies to humans and AI agents.
 
 ## Structure and Naming
@@ -25,7 +25,7 @@ It applies to humans and AI agents.
 - At least one maintainer review is mandatory before merge.
 
 ## AI Context Rule
-Agents must load `01-index.md` first, then only the modules required for the task.
+Agents must load [01-index.md](01-index.md) first, then only the modules required for the task.
 
 ## Compliance Checks
 Before merge, verify:

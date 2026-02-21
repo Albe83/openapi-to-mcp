@@ -8,7 +8,7 @@ In this repository, DDD assessment is mandatory when a feature/bugfix changes da
 ## Applicability Trigger
 DDD assessment is required if change scope includes:
 - new or changed domain entities/value objects,
-- schema changes in `docs/schemas/`,
+- schema changes in [docs/schemas/](../schemas),
 - non-trivial domain invariants or lifecycle rules.
 
 ## Required DDD Artifacts
@@ -19,7 +19,7 @@ When DDD is applicable, provide:
 
 ## Documentation Location
 Preferred: dedicated sections in ADR markdown.
-Allowed support: references to `docs/schemas/` and Class Diagram artifacts.
+Allowed support: references to [docs/schemas/](../schemas) and Class Diagram artifacts.
 
 ## PR Traceability
 If data model/schema changes, PR must include:

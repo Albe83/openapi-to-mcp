@@ -19,7 +19,7 @@ Assessment is required if change scope includes:
 
 ## Required Artifacts
 - ADR section with port/adapter mapping and dependency direction.
-- Dedicated Markdown Mermaid diagram in `docs/diagrams/` for Hexagonal structure.
+- Dedicated Markdown Mermaid diagram in [docs/diagrams/](../diagrams) for Hexagonal structure.
 - PR links to ADR section and diagram file.
 
 ## Not Applicable Path

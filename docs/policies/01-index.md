@@ -6,22 +6,22 @@ This is the entrypoint for all contribution policy rules.
 For feature and bugfix code changes, policies are mandatory for humans and AI agents.
 
 ## Read Order
-1. `01-index.md`
-2. `00-policy-of-policies.md` (meta rules)
+1. [01-index.md](01-index.md)
+2. [00-policy-of-policies.md](00-policy-of-policies.md) (meta rules)
 3. Task-specific modules only
 
 ## Quick Map
-- `02-lifecycle.md`: issue -> junior-first task decomposition -> labeled sub-issues -> PR flow.
-- `03-architecture-first.md`: ADR + separate Class/Sequence Markdown Mermaid in `docs/diagrams/` + data model JSON Schema (YAML preferred).
-- `04-testing-tdd.md`: TDD + test/lint evidence rules for feature and bugfix.
-- `05-git-and-pr.md`: trunk workflow, branch naming, commits, PR, merge.
-- `06-versioning-release.md`: SemVer and release rules.
-- `07-compliance-dod.md`: DoD checks, enforcement, non-compliance.
-- `08-domain-driven-design.md`: DDD assessment/rules for model/schema changes.
-- `09-language-simple-english.md`: repository language and simple English rules.
-- `10-review-and-findings.md`: mandatory review workflow and finding priorities.
-- `11-public-api-idl.md`: formal IDL rules for public API changes.
-- `12-hexagonal-architecture.md`: Hexagonal assessment/rules for boundary and integration changes.
+- [02-lifecycle.md](02-lifecycle.md): issue -> junior-first task decomposition -> labeled sub-issues -> PR flow.
+- [03-architecture-first.md](03-architecture-first.md): ADR + separate Class/Sequence Markdown Mermaid in [docs/diagrams/](../diagrams) + data model JSON Schema (YAML preferred).
+- [04-testing-tdd.md](04-testing-tdd.md): TDD + test/lint evidence rules for feature and bugfix.
+- [05-git-and-pr.md](05-git-and-pr.md): trunk workflow, branch naming, commits, PR, merge.
+- [06-versioning-release.md](06-versioning-release.md): SemVer and release rules.
+- [07-compliance-dod.md](07-compliance-dod.md): DoD checks, enforcement, non-compliance.
+- [08-domain-driven-design.md](08-domain-driven-design.md): DDD assessment/rules for model/schema changes.
+- [09-language-simple-english.md](09-language-simple-english.md): repository language and simple English rules.
+- [10-review-and-findings.md](10-review-and-findings.md): mandatory review workflow and finding priorities.
+- [11-public-api-idl.md](11-public-api-idl.md): formal IDL rules for public API changes.
+- [12-hexagonal-architecture.md](12-hexagonal-architecture.md): Hexagonal assessment/rules for boundary and integration changes.
 
 ## Default Paths
 - Feature/bugfix code: `02` -> `03` -> `04` -> `05` -> `10` -> `07`
@@ -37,5 +37,5 @@ Do not load the full policy set unless auditing governance.
 
 ## Visual Overview
 For a high-level governance map, see:
-`docs/diagrams/0001-governance-mindmap.md`
+[docs/diagrams/0001-governance-mindmap.md](../diagrams/0001-governance-mindmap.md)
 This diagram is descriptive and does not replace normative policy text.
