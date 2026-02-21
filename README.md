@@ -117,12 +117,17 @@ This repository uses GitHub Actions with dedicated workflows:
   - Runs CodeQL and Trivy scans (filesystem + container image).
 - Release: [`.github/workflows/release.yml`](.github/workflows/release.yml)
   - Runs on SemVer tags, publishes image to GHCR, scans image, creates GitHub Release.
+  - Enforces public visibility for the GHCR package before publishing the GitHub Release.
 
 Release trigger examples:
 ```bash
 git tag v0.2.0
 git push origin v0.2.0
 ```
+
+GHCR visibility prerequisite:
+- Set package visibility to `public` in GitHub Package settings before release.
+- If visibility is `private`, the release workflow fails with a direct settings link.
 
 ## Project Structure
 - `src/openapi_to_mcp/` core implementation

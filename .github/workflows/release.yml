@@ -40,6 +40,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       image_ref: ${{ steps.meta.outputs.image_ref }}
+      package_name: ${{ steps.meta.outputs.package_name }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -52,7 +53,10 @@ jobs:
         run: |
           set -euo pipefail
           image="ghcr.io/${GITHUB_REPOSITORY,,}"
+          package_name="${GITHUB_REPOSITORY#*/}"
+          package_name="${package_name,,}"
           echo "image_ref=${image}:${TAG}" >> "${GITHUB_OUTPUT}"
+          echo "package_name=${package_name}" >> "${GITHUB_OUTPUT}"
           {
             echo "tags<<EOF"
             echo "${image}:${TAG}"
@@ -80,6 +84,35 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
+  enforce-image-public:
+    needs: publish-image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify GHCR Package Visibility
+        env:
+          OWNER_TYPE: ${{ github.event.repository.owner.type }}
+          OWNER: ${{ github.repository_owner }}
+          PACKAGE_NAME: ${{ needs.publish-image.outputs.package_name }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ "${OWNER_TYPE}" == "Organization" ]]; then
+            endpoint="/orgs/${OWNER}/packages/container/${PACKAGE_NAME}"
+            settings_url="https://github.com/orgs/${OWNER}/packages/container/package/${PACKAGE_NAME}/settings"
+          else
+            endpoint="/users/${OWNER}/packages/container/${PACKAGE_NAME}"
+            settings_url="https://github.com/users/${OWNER}/packages/container/package/${PACKAGE_NAME}/settings"
+          fi
+
+          visibility="$(gh api -H "Accept: application/vnd.github+json" "${endpoint}" --jq '.visibility')"
+          if [[ "${visibility}" != "public" ]]; then
+            echo "Expected public visibility, found: ${visibility}." >&2
+            echo "Set package visibility to public in GitHub UI:" >&2
+            echo "${settings_url}" >&2
+            exit 1
+          fi
+          echo "Package visibility is public."
+
   trivy-release-image:
     needs: publish-image
     runs-on: ubuntu-latest
@@ -102,6 +135,7 @@ jobs:
     needs:
       - validate-tag
       - publish-image
+      - enforce-image-public
       - trivy-release-image
     runs-on: ubuntu-latest
     steps:
