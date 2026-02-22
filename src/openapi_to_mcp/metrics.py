@@ -1,14 +1,11 @@
-"""Runtime metrics registry and helpers."""
+"""Runtime metrics instrumentation helpers."""
 
 from __future__ import annotations
 
-from dataclasses import dataclass
 from threading import Lock
 from typing import Any
 
 from opentelemetry.metrics import Observation
-from prometheus_client import CollectorRegistry, Counter, Gauge, Histogram
-from prometheus_client.openmetrics.exposition import CONTENT_TYPE_LATEST, generate_latest
 
 from openapi_to_mcp.telemetry import build_telemetry_runtime
 
@@ -26,29 +23,9 @@ _HTTP_SERVER_DURATION_BUCKETS = (
     10.0,
 )
 
-_HTTP_INVOKER_QUEUE_WAIT_BUCKETS = (
-    0.001,
-    0.005,
-    0.01,
-    0.025,
-    0.05,
-    0.1,
-    0.25,
-    0.5,
-    1.0,
-)
-
-
-@dataclass(frozen=True)
-class MetricsRenderResult:
-    """Rendered OpenMetrics payload."""
-
-    payload: bytes
-    content_type: str
-
 
 class RuntimeMetrics:
-    """Collect and expose runtime metrics in OpenMetrics format."""
+    """Collect and emit runtime metrics through OpenTelemetry."""
 
     def __init__(
         self,
@@ -63,7 +40,6 @@ class RuntimeMetrics:
         service_version: str = "0.0.0",
         deployment_environment: str = "dev",
     ) -> None:
-        self._registry = CollectorRegistry()
         self._lock = Lock()
         self._in_flight_value = 0
         self._max_in_flight_value = max_in_flight
@@ -81,60 +57,6 @@ class RuntimeMetrics:
         )
         self._meter_provider = telemetry.provider
         meter = telemetry.meter
-
-        self._requests_total = Counter(
-            "openapi_to_mcp_http_invoker_requests",
-            "Total outbound HTTP invocations.",
-            registry=self._registry,
-        )
-        self._errors_total = Counter(
-            "openapi_to_mcp_http_invoker_errors",
-            "Total outbound HTTP invocation errors.",
-            registry=self._registry,
-        )
-        self._in_flight = Gauge(
-            "openapi_to_mcp_http_invoker_in_flight",
-            "Current number of in-flight outbound HTTP invocations.",
-            registry=self._registry,
-        )
-        self._max_in_flight = Gauge(
-            "openapi_to_mcp_http_invoker_max_in_flight",
-            "Configured max in-flight outbound HTTP invocations.",
-            registry=self._registry,
-        )
-        self._connection_pool_max = Gauge(
-            "openapi_to_mcp_http_connection_pool_max_connections",
-            "Configured max outbound HTTP connection pool size.",
-            registry=self._registry,
-        )
-        self._queue_wait_seconds = Histogram(
-            "openapi_to_mcp_http_invoker_queue_wait_seconds",
-            "Seconds spent waiting for an outbound HTTP invocation slot.",
-            buckets=_HTTP_INVOKER_QUEUE_WAIT_BUCKETS,
-            registry=self._registry,
-        )
-        self._http_server_requests = Counter(
-            "openapi_to_mcp_http_server_requests",
-            "Total inbound HTTP requests handled by the service.",
-            labelnames=("http_method", "http_route"),
-            registry=self._registry,
-        )
-        self._http_server_errors = Counter(
-            "openapi_to_mcp_http_server_errors",
-            "Total inbound HTTP 5xx responses handled by the service.",
-            labelnames=("http_method", "http_route"),
-            registry=self._registry,
-        )
-        self._http_server_duration = Histogram(
-            "openapi_to_mcp_http_server_duration_seconds",
-            "Inbound HTTP request duration in seconds.",
-            labelnames=("http_method", "http_route"),
-            buckets=_HTTP_SERVER_DURATION_BUCKETS,
-            registry=self._registry,
-        )
-
-        self._max_in_flight.set(float(max_in_flight))
-        self._connection_pool_max.set(float(max_connections))
 
         self._otlp_invoker_requests = meter.create_counter(
             "openapi_to_mcp.http_invoker.requests",
@@ -191,25 +113,23 @@ class RuntimeMetrics:
         )
 
     def on_invocation_started(self, wait_seconds: float) -> None:
-        self._requests_total.inc()
-        self._queue_wait_seconds.observe(max(wait_seconds, 0.0))
         self._otlp_invoker_requests.add(1)
         self._otlp_invoker_queue_wait.record(max(wait_seconds, 0.0))
         with self._lock:
             self._in_flight_value += 1
-            self._in_flight.set(float(self._in_flight_value))
         self._otlp_invoker_in_flight.add(1)
 
     def on_invocation_error(self) -> None:
-        self._errors_total.inc()
         self._otlp_invoker_errors.add(1)
 
     def on_invocation_finished(self) -> None:
+        decremented = False
         with self._lock:
             if self._in_flight_value > 0:
                 self._in_flight_value -= 1
-            self._in_flight.set(float(self._in_flight_value))
-        self._otlp_invoker_in_flight.add(-1)
+                decremented = True
+        if decremented:
+            self._otlp_invoker_in_flight.add(-1)
 
     def on_http_request_completed(
         self,
@@ -227,25 +147,11 @@ class RuntimeMetrics:
             "http.status_class": _status_class(status_code),
         }
 
-        self._http_server_requests.labels(http_method=http_method, http_route=http_route).inc()
-        self._http_server_duration.labels(http_method=http_method, http_route=http_route).observe(
-            max(duration_seconds, 0.0)
-        )
         self._otlp_http_server_requests.add(1, attributes=attributes)
         self._otlp_http_server_duration.record(max(duration_seconds, 0.0), attributes=attributes)
 
         if status_code >= 500:
-            self._http_server_errors.labels(http_method=http_method, http_route=http_route).inc()
             self._otlp_http_server_errors.add(1, attributes=attributes)
-
-    def render_openmetrics(self) -> bytes:
-        return generate_latest(self._registry)
-
-    def render(self) -> MetricsRenderResult:
-        return MetricsRenderResult(
-            payload=self.render_openmetrics(),
-            content_type=CONTENT_TYPE_LATEST,
-        )
 
     def shutdown(self) -> None:
         try:

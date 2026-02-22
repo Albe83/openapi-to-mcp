@@ -2,7 +2,7 @@
 
 - Parent issue: [#22](https://github.com/Albe83/openapi-to-mcp/issues/22)
 - ADR: [docs/adr/0003-metrics-endpoint-opentelemetry-use-alignment.md](../adr/0003-metrics-endpoint-opentelemetry-use-alignment.md)
-- Purpose: Describe metric recording during invocation and exposure through `/metrics`.
+- Purpose: Historical diagram from ADR 0003 (superseded by ADR 0004).
 
 ```mermaid
 sequenceDiagram

@@ -51,15 +51,7 @@ paths:
         assert health.json() == {"status": "ok"}
 
         metrics = client.get("/metrics")
-        assert metrics.status_code == 200
-        assert "openmetrics-text" in metrics.headers.get("content-type", "")
-        assert metrics.headers.get("deprecation") == "true"
-        assert "deprecated" in metrics.headers.get("warning", "").lower()
-        metrics_body = metrics.text
-        assert "openapi_to_mcp_http_invoker_max_in_flight" in metrics_body
-        assert "openapi_to_mcp_http_connection_pool_max_connections" in metrics_body
-        assert "openapi_to_mcp_http_server_requests_total" in metrics_body
-        assert "openapi_to_mcp_http_server_duration_seconds" in metrics_body
+        assert metrics.status_code == 404
 
         if not app.state.mcp_native:
             response = client.post("/mcp", json={"tool": "getPet", "arguments": {"petId": "123"}})

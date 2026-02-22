@@ -7,7 +7,7 @@ from contextlib import asynccontextmanager
 from time import perf_counter
 from typing import Any, Optional
 
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from openapi_to_mcp import __version__
@@ -123,18 +123,6 @@ def create_app(
     @app.get("/healthz")
     async def healthz() -> dict[str, str]:
         return {"status": "ok"}
-
-    @app.get("/metrics")
-    async def metrics_endpoint() -> Response:
-        rendered = metrics.render()
-        return Response(
-            content=rendered.payload,
-            media_type=rendered.content_type,
-            headers={
-                "Deprecation": "true",
-                "Warning": '299 - "GET /metrics is deprecated; use OTLP export to Collector."',
-            },
-        )
 
     if mcp_adapter.supports_streamable_http:
         app.mount("", mcp_adapter.streamable_http_app())

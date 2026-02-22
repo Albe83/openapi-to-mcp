@@ -2,13 +2,12 @@
 
 - Parent issue: #TBD
 - ADR: [docs/adr/0004-otlp-telemetry-red-use-and-metrics-deprecation.md](../adr/0004-otlp-telemetry-red-use-and-metrics-deprecation.md)
-- Purpose: Show telemetry components, RED/USE instrumentation points, and compatibility endpoint behavior.
+- Purpose: Show telemetry components and RED/USE instrumentation with OTLP-only export.
 
 ```mermaid
 classDiagram
   class FastAPIApp {
     +GET /healthz
-    +GET /metrics (deprecated)
     +POST /mcp
     +http_red_metrics_middleware()
   }
@@ -18,7 +17,6 @@ classDiagram
     +on_invocation_started(wait)
     +on_invocation_error()
     +on_invocation_finished()
-    +render_openmetrics()
     +shutdown()
   }
 
@@ -39,7 +37,7 @@ classDiagram
     +invoke(binding, payload)
   }
 
-  FastAPIApp --> RuntimeMetrics : records RED, serves deprecated /metrics
+  FastAPIApp --> RuntimeMetrics : records RED
   HttpxInvokerAdapter --> RuntimeMetrics : records USE metrics
   RuntimeMetrics --> TelemetryRuntime : creates OTel instruments
   TelemetryRuntime --> OtlpMetricExporter : periodic export

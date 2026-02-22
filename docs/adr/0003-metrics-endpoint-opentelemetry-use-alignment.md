@@ -1,11 +1,14 @@
 # ADR 0003: Metrics Endpoint and USE-Aligned Observability
 
-- Status: Accepted
+- Status: Superseded by [ADR 0004](0004-otlp-telemetry-red-use-and-metrics-deprecation.md)
 - Date: 2026-02-21
 - Parent issue: [#22](https://github.com/Albe83/openapi-to-mcp/issues/22)
 - Related sub-issues: [#23](https://github.com/Albe83/openapi-to-mcp/issues/23), [#24](https://github.com/Albe83/openapi-to-mcp/issues/24), [#25](https://github.com/Albe83/openapi-to-mcp/issues/25), [#26](https://github.com/Albe83/openapi-to-mcp/issues/26), [#27](https://github.com/Albe83/openapi-to-mcp/issues/27), [#28](https://github.com/Albe83/openapi-to-mcp/issues/28)
 
 ## Context
+This ADR is historical.
+Current telemetry behavior is defined by [ADR 0004](0004-otlp-telemetry-red-use-and-metrics-deprecation.md).
+
 The repository policy requires a dedicated metrics endpoint, OpenMetrics output, and USE-oriented coverage for bounded resources.
 Current runtime exposes `/healthz` and MCP endpoints but does not expose `/metrics`.
 

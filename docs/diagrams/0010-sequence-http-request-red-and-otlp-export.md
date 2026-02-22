@@ -26,8 +26,4 @@ sequenceDiagram
   loop periodic export interval
     OTel->>Collector: export OTLP metrics
   end
-
-  Client->>App: GET /metrics
-  App->>Metrics: render_openmetrics()
-  App-->>Client: OpenMetrics payload + deprecation headers
 ```

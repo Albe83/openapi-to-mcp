@@ -1,4 +1,4 @@
-# ADR 0004: OTLP Telemetry, RED and USE Metrics, and `/metrics` Deprecation
+# ADR 0004: OTLP Telemetry with RED and USE Metrics (Remove `/metrics`)
 
 - Status: Accepted
 - Date: 2026-02-22
@@ -9,8 +9,8 @@
 Policy `22` requires OpenTelemetry SDK instrumentation and OTLP export to a platform Collector.
 Policy `23` requires clear metric semantics, USE coverage for bounded resources, and RED metrics for request-driven interfaces.
 
-The runtime already exposes `GET /metrics` in OpenMetrics format.
-To keep compatibility, this endpoint is temporarily retained and explicitly deprecated.
+The runtime previously exposed `GET /metrics` as an OpenMetrics compatibility endpoint.
+That compatibility path created duplicate telemetry behavior and extra maintenance cost.
 
 ## Decision
 Adopt OpenTelemetry as the primary telemetry implementation:
@@ -28,15 +28,15 @@ Implement RED for inbound HTTP request-driven interfaces:
 - duration histogram with explicit bucket boundaries.
 
 Implement USE for outbound HTTP bounded resources:
-- usage: in-flight outbound requests,
-- saturation: queue wait histogram, configured max in-flight, configured max connections, utilization ratio,
+- usage: in-flight outbound requests;
+- saturation: queue wait histogram, configured max in-flight, configured max connections, utilization ratio;
 - errors: outbound invocation error counter.
 
-Keep `GET /metrics` for transition only, with explicit deprecation response headers.
+Remove `GET /metrics` and remove OpenMetrics/Prometheus compatibility code.
+Telemetry is exported only through OTLP to the Collector.
 
 ### RED Duration Bucket Limits
-For `openapi_to_mcp.http_server.duration` and compatibility metric
-`openapi_to_mcp_http_server_duration_seconds`, boundaries are:
+For `openapi_to_mcp.http_server.duration`, boundaries are:
 `[0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1.0, 2.5, 5.0, 10.0]` seconds.
 
 ### Metric Catalog (Name / Unit / Intent)
@@ -58,15 +58,16 @@ For `openapi_to_mcp.http_server.duration` and compatibility metric
 ## Alternatives Considered
 1. Keep Prometheus-only instrumentation.
    - Rejected: does not satisfy OTLP export policy.
-2. Remove `GET /metrics` immediately.
-   - Rejected: increases migration risk for existing scraping workflows.
-3. Delay telemetry refactor with ADR exception.
+2. Keep deprecated `GET /metrics` in parallel.
+   - Rejected: keeps duplicate telemetry paths and extra complexity.
+3. Delay cleanup with ADR exception.
    - Rejected: policy alignment is required now.
 
 ## Consequences and Tradeoffs
 - Positive: transport and metric design align with policy `22` and `23`.
 - Positive: RED and USE become explicit and testable.
-- Negative: temporary dual-path complexity (`OTLP` primary + deprecated `/metrics` compatibility).
+- Positive: runtime is simpler with one telemetry path.
+- Negative: users that still scrape `/metrics` must migrate to Collector-based telemetry access.
 
 ## Required Artifact Links
 - Class diagram: [docs/diagrams/0009-class-telemetry-otlp-red-use.md](../diagrams/0009-class-telemetry-otlp-red-use.md)
