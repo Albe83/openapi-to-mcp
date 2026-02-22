@@ -2,7 +2,9 @@
 
 Policy Owner: Engineering Maintainers
 
-TDD is mandatory for feature and bugfix code changes.
+## Scope
+- TDD is mandatory for `feat` and `fix` code changes.
+- For `docs`/`chore`/`refactor`/`ci` only changes, TDD sequence may be `N/A`, but validation evidence is still required.
 
 ## Feature Flow
 1. Write or update tests first.
@@ -16,20 +18,33 @@ TDD is mandatory for feature and bugfix code changes.
 3. Implement the fix.
 4. Verify reproduction and regression tests pass.
 
+## Matching Linter Rule
+A matching linter exists when the repository has a maintained command for the changed artifact type.
+
+For this repository:
+- Python source/tests: `make lint`.
+- Policy/Markdown/governance artifacts: `make governance-check`.
+
+If no matching linter exists, PR must include:
+`N/A - no matching linter for <artifact-type>: <reason>`.
+
 ## PR Evidence
 Feature PRs must include test-first sequence, commands run, and result summary.
 Bugfix PRs must include reproduction test, pre-fix failure evidence, and post-fix success evidence.
-Run lint for each changed artifact when a matching linter exists.
-If no linter exists for a changed artifact type, record explicit `N/A` with reason in PR validation.
+
+Minimum evidence record for each validation command:
+- command,
+- scope,
+- result (`pass`/`fail`) with short output summary.
 
 Use [.github/pull_request_template.md](../../.github/pull_request_template.md).
 
-## Scope
-Mandatory for feature and bugfix code changes.
-Refactor-only changes should still preserve behavior and keep tests green.
+## Mixed-Scope Rule
+If any `feat` or `fix` code is present, full TDD evidence is required for changed code paths.
+Non-`feat`/`fix` sections may use explicit `N/A` where applicable.
 
 ## Non-Compliant
 - Feature/bugfix implementation before tests.
 - Bugfix without reproduction test.
 - PR without TDD evidence.
-- PR missing lint evidence for changed artifacts.
+- PR missing lint evidence for changed artifacts when a matching linter exists.
