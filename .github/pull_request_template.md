@@ -53,6 +53,10 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 - [ ] Reproduction + regression tests pass after fix.
 
 ## Validation
+- Evidence record format (use for each command):
+  - `command: <exact command>`
+  - `scope: <artifact/path or change scope>`
+  - `result: pass/fail + short summary`
 - [ ] Test commands run (or `N/A - <reason>`):
   - `...`
 - [ ] Task-start branch guard evidence:
@@ -69,6 +73,20 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
   - Support note: `supported` / `N/A - reasoning level control not supported`
 - [ ] Results summary:
   - `...`
+
+## Compliance Map (Owner Modules)
+Add one row per owner module checked for this PR.
+Use `yes`/`no` in `Applies`.
+If `Applies=no`, provide `N/A - <reason>`.
+
+| Module | Applies | Evidence Link or Command Result | N/A Reason |
+| --- | --- | --- | --- |
+| 02 |  |  |  |
+| 03 |  |  |  |
+| 04 |  |  |  |
+| 05 |  |  |  |
+| 07 |  |  |  |
+| 10 |  |  |  |
 
 ## Review Findings (Mandatory)
 - Author self-review completed: `yes/no`
