@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import logging
 from contextlib import asynccontextmanager
+from time import perf_counter
 from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException, Response
@@ -43,6 +44,13 @@ def create_app(
     metrics = RuntimeMetrics(
         max_in_flight=settings.http_max_in_flight,
         max_connections=settings.http_max_connections,
+        telemetry_otlp_protocol=settings.telemetry_otlp_protocol,
+        telemetry_otlp_endpoint=settings.telemetry_otlp_endpoint,
+        telemetry_export_interval_ms=settings.telemetry_export_interval_ms,
+        service_name=settings.service_name,
+        service_namespace=settings.service_namespace,
+        service_version=__version__,
+        deployment_environment=settings.deployment_environment,
     )
     invoker = invoker_override or HttpxInvokerAdapter(
         metrics=metrics,
@@ -82,11 +90,35 @@ def create_app(
         )
         if mcp_adapter.supports_streamable_http:
             async with mcp_adapter.native_lifespan():
-                yield
+                try:
+                    yield
+                finally:
+                    metrics.shutdown()
             return
-        yield
+        try:
+            yield
+        finally:
+            metrics.shutdown()
 
     app = FastAPI(title="openapi-to-mcp", version=__version__, lifespan=lifespan)
+
+    @app.middleware("http")
+    async def http_red_metrics_middleware(request, call_next):  # type: ignore[no-untyped-def]
+        started = perf_counter()
+        route = request.url.path
+        method = request.method
+        status_code = 500
+        try:
+            response = await call_next(request)
+            status_code = response.status_code
+            return response
+        finally:
+            metrics.on_http_request_completed(
+                route=route,
+                method=method,
+                status_code=status_code,
+                duration_seconds=perf_counter() - started,
+            )
 
     @app.get("/healthz")
     async def healthz() -> dict[str, str]:
@@ -95,7 +127,14 @@ def create_app(
     @app.get("/metrics")
     async def metrics_endpoint() -> Response:
         rendered = metrics.render()
-        return Response(content=rendered.payload, media_type=rendered.content_type)
+        return Response(
+            content=rendered.payload,
+            media_type=rendered.content_type,
+            headers={
+                "Deprecation": "true",
+                "Warning": '299 - "GET /metrics is deprecated; use OTLP export to Collector."',
+            },
+        )
 
     if mcp_adapter.supports_streamable_http:
         app.mount("", mcp_adapter.streamable_http_app())

@@ -11,6 +11,9 @@ def test_runtime_metrics_exposes_core_families() -> None:
     assert "openapi_to_mcp_http_invoker_max_in_flight" in payload
     assert "openapi_to_mcp_http_connection_pool_max_connections" in payload
     assert "openapi_to_mcp_http_invoker_errors_total" in payload
+    assert "openapi_to_mcp_http_server_requests" in payload
+    assert "openapi_to_mcp_http_server_duration_seconds" in payload
+    metrics.shutdown()
 
 
 def test_runtime_metrics_tracks_errors_and_usage() -> None:
@@ -23,3 +26,31 @@ def test_runtime_metrics_tracks_errors_and_usage() -> None:
     payload = metrics.render_openmetrics().decode("utf-8")
     assert "openapi_to_mcp_http_invoker_requests_total 1.0" in payload
     assert "openapi_to_mcp_http_invoker_errors_total 1.0" in payload
+    metrics.shutdown()
+
+
+def test_runtime_metrics_tracks_red_for_http_requests() -> None:
+    metrics = RuntimeMetrics(max_in_flight=2, max_connections=4)
+    metrics.on_http_request_completed(
+        route="/mcp",
+        method="POST",
+        status_code=200,
+        duration_seconds=0.012,
+    )
+    metrics.on_http_request_completed(
+        route="/mcp",
+        method="POST",
+        status_code=503,
+        duration_seconds=0.018,
+    )
+
+    payload = metrics.render_openmetrics().decode("utf-8")
+    assert (
+        'openapi_to_mcp_http_server_requests_total{http_method="POST",http_route="/mcp"} 2.0'
+        in payload
+    )
+    assert (
+        'openapi_to_mcp_http_server_errors_total{http_method="POST",http_route="/mcp"} 1.0'
+        in payload
+    )
+    metrics.shutdown()

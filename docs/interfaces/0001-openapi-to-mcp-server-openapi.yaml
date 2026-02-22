@@ -28,11 +28,24 @@ paths:
                     enum: [ok]
   /metrics:
     get:
-      summary: OpenMetrics endpoint for runtime telemetry
+      summary: Deprecated OpenMetrics endpoint for runtime telemetry compatibility
       operationId: getMetrics
+      deprecated: true
+      description: |
+        Transitional endpoint kept for compatibility.
+        Primary telemetry transport is OTLP export to the platform OpenTelemetry Collector.
       responses:
         '200':
           description: OpenMetrics payload
+          headers:
+            Deprecation:
+              description: Indicates that this endpoint is deprecated.
+              schema:
+                type: string
+            Warning:
+              description: Deprecation warning for migration to OTLP Collector export.
+              schema:
+                type: string
           content:
             application/openmetrics-text:
               schema:

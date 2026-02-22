@@ -39,6 +39,18 @@ If M2M protocol selection or constraints change, also read:
 If Event-Driven or Pub/Sub contracts change, also read:
 - [docs/policies/19-m2m-events-asyncapi-cloudevents.md](docs/policies/19-m2m-events-asyncapi-cloudevents.md)
 
+If persistence flows change, also read:
+- [docs/policies/20-persistence-dapr-statestore.md](docs/policies/20-persistence-dapr-statestore.md)
+
+If publish/subscribe broker integrations change, also read:
+- [docs/policies/21-m2m-dapr-pubsub-decoupling.md](docs/policies/21-m2m-dapr-pubsub-decoupling.md)
+
+If telemetry export/transport behavior changes, also read:
+- [docs/policies/22-metrics-transport-standard.md](docs/policies/22-metrics-transport-standard.md)
+
+If metric semantic design changes, also read:
+- [docs/policies/23-metrics-design-use-red.md](docs/policies/23-metrics-design-use-red.md)
+
 ## Workflow Snapshot (Non-Normative)
 Use this as onboarding only. Exact requirements are owned by policy modules.
 1. Open parent analysis issue and add the operational plan comment.

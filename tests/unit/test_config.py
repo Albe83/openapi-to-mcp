@@ -25,6 +25,12 @@ def test_settings_defaults_and_path_precedence() -> None:
     assert settings.http_max_in_flight == 128
     assert settings.http_max_connections == 100
     assert settings.http_max_keepalive_connections == 20
+    assert settings.telemetry_otlp_protocol == "grpc"
+    assert settings.telemetry_otlp_endpoint == "http://127.0.0.1:4317"
+    assert settings.telemetry_export_interval_ms == 60000
+    assert settings.service_name == "openapi-to-mcp"
+    assert settings.service_namespace == "openapi-to-mcp"
+    assert settings.deployment_environment == "dev"
     assert settings.resolve_openapi_source() == ("path", "./spec.yaml")
 
 
@@ -50,5 +56,25 @@ def test_settings_invalid_http_keepalive_vs_connections() -> None:
                 "OPENAPI_SPEC_PATH": "./spec.yaml",
                 "HTTP_MAX_CONNECTIONS": "10",
                 "HTTP_MAX_KEEPALIVE_CONNECTIONS": "11",
+            }
+        )
+
+
+def test_settings_invalid_telemetry_protocol() -> None:
+    with pytest.raises(ConfigurationError):
+        Settings.from_env(
+            {
+                "OPENAPI_SPEC_PATH": "./spec.yaml",
+                "TELEMETRY_OTLP_PROTOCOL": "udp",
+            }
+        )
+
+
+def test_settings_invalid_telemetry_interval() -> None:
+    with pytest.raises(ConfigurationError):
+        Settings.from_env(
+            {
+                "OPENAPI_SPEC_PATH": "./spec.yaml",
+                "TELEMETRY_EXPORT_INTERVAL_MS": "0",
             }
         )

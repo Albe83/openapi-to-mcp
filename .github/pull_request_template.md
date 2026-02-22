@@ -31,6 +31,14 @@ Applicability rule:
 - M2M protocol policy evidence (Required if `yes`): compliance with `18` + ADR/IDL links or `N/A - <reason>`
 - Event protocol/contract changed? `yes/no`
 - Event messaging policy evidence (Required if `yes`): compliance with `19` + ADR/IDL links or `N/A - <reason>`
+- Persistence flow changed? `yes/no`
+- Persistence policy evidence (Required if `yes`): compliance with `20` + ADR links or `N/A - <reason>`
+- Broker Pub/Sub integration changed? `yes/no`
+- Broker decoupling policy evidence (Required if `yes`): compliance with `21` + ADR/interface links or `N/A - <reason>`
+- Telemetry export/transport behavior changed? `yes/no`
+- Telemetry transport policy evidence (Required if `yes`): compliance with `22` + OTLP/resource attributes evidence or `N/A - <reason>`
+- Metric semantic design changed? `yes/no`
+- Metrics design policy evidence (Required if `yes`): compliance with `23` + metric catalog/USE/RED evidence or `N/A - <reason>`
 
 ## TDD Evidence (Required for `feat`/`fix`)
 If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
@@ -100,6 +108,10 @@ If change type is not `feat`/`fix`, set this section to `N/A - <reason>`.
 - [ ] If application logging behavior changed, compliance with `17` is evidenced.
 - [ ] If M2M protocol decision changed, compliance with `18` is evidenced.
 - [ ] If Event-Driven/PubSub contracts changed, compliance with `19` is evidenced.
+- [ ] If persistence flow changed, compliance with `20` is evidenced.
+- [ ] If broker Pub/Sub integration changed, compliance with `21` is evidenced.
+- [ ] If telemetry export/transport behavior changed, compliance with `22` is evidenced.
+- [ ] If metric semantic design changed, compliance with `23` is evidenced.
 - [ ] New/updated ADR/docs/comments are written in simple English.
 - [ ] Any non-simple wording is justified when required for precision.
 - [ ] Mandatory review completed (author + independent reviewer).

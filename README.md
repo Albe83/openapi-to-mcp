@@ -11,7 +11,8 @@ This repository now includes a working Python technical foundation:
 - Critical OpenAPI validation with warning support for non-critical gaps.
 - Operation mapping and MCP tool generation (`operationId` first, deterministic fallback).
 - Health endpoint (`GET /healthz`).
-- Metrics endpoint (`GET /metrics`) with OpenMetrics output.
+- OTLP telemetry export with OpenTelemetry SDK instrumentation.
+- Metrics endpoint (`GET /metrics`) kept as deprecated OpenMetrics compatibility path.
 - Local fallback MCP endpoint (`POST /mcp`) when FastMCP is not available.
 
 Architecture and governance artifacts:
@@ -36,6 +37,12 @@ Optional:
 - `HTTP_MAX_IN_FLIGHT` (default `128`)
 - `HTTP_MAX_CONNECTIONS` (default `100`)
 - `HTTP_MAX_KEEPALIVE_CONNECTIONS` (default `20`)
+- `TELEMETRY_OTLP_PROTOCOL` (`grpc` default, `http` fallback)
+- `TELEMETRY_OTLP_ENDPOINT` (default `http://127.0.0.1:4317` for `grpc`)
+- `TELEMETRY_EXPORT_INTERVAL_MS` (default `60000`)
+- `SERVICE_NAME` (default `openapi-to-mcp`)
+- `SERVICE_NAMESPACE` (default `openapi-to-mcp`)
+- `DEPLOYMENT_ENVIRONMENT` (default `dev`)
 
 OpenAPI runtime rule:
 - Each operation must resolve a server URL from `servers` declared at operation, path, or root level.
@@ -161,6 +168,8 @@ Event-Driven and Pub/Sub governance rules are defined in [docs/policies/19-m2m-e
 
 ## Metrics and Telemetry Transport Policy
 Telemetry export and transport rules are defined in [docs/policies/22-metrics-transport-standard.md](docs/policies/22-metrics-transport-standard.md).
+Current runtime exports metrics via OTLP to a Collector target configured through environment variables.
+`GET /metrics` remains available only as a deprecated compatibility endpoint during transition.
 
 ## Metrics Design Policy
 Metrics semantic design rules (naming, units, USE, RED, and latency histograms) are defined in [docs/policies/23-metrics-design-use-red.md](docs/policies/23-metrics-design-use-red.md).
