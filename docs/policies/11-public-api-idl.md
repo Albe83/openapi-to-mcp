@@ -6,17 +6,22 @@ Public API definition is an architectural responsibility.
 When a public API changes, the contract must be formally defined in an Interface Definition Language (IDL).
 
 ## Public API Boundary
-Public API means an interface intentionally exposed to consumers outside the service process.
+A Public API is any interface consumed by a process outside the service boundary.
+This includes internet-facing consumers and internal organizational consumers.
 
 Included:
-- external HTTP endpoints,
-- externally consumed RPC/event contracts,
-- documented external automation interfaces (for example CLI contract) when explicitly declared public.
+- customer/supplier-facing HTTP endpoints,
+- cross-team and cross-service HTTP/RPC/event contracts,
+- documented automation interfaces (for example CLI) when declared public.
 
 Excluded:
-- internal-only endpoints and debug/admin routes not exposed externally,
 - internal callbacks and in-process interfaces,
+- internal-only debug/admin routes not consumed cross-process,
 - environment variables and internal implementation details.
+
+## Architectural Objective
+Public API contracts are used to contain change blast radius across dependent processes.
+Externally observable contract changes must stay explicit, versioned, and traceable.
 
 ## Applicability Trigger
 Apply this policy when:
@@ -25,11 +30,10 @@ Apply this policy when:
 - externally observable behavior changes require contract updates.
 
 Behavior-change triggers include:
-- request/response/event schema changes,
-- required/optional field changes,
+- request/response/event schema and required/optional field changes,
 - enum/default/validation rule changes,
 - status code or error-shape changes,
-- authentication or parameter semantics changes.
+- authentication/authorization or parameter semantic changes.
 
 ## IDL Standard
 - Default for HTTP REST: OpenAPI specification.
