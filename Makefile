@@ -3,7 +3,7 @@ CONTAINERFILE_VARIANT ?= mount
 
 .PHONY: run test lint format \
 	container-build-prod container-build-dev container-build-test container-build-all \
-	container-smoke-prod container-quality-test governance-check
+	container-smoke-prod container-quality-test governance-check pr-traceability-check
 
 run:
 	python3.11 -m openapi_to_mcp.main
@@ -36,3 +36,6 @@ container-quality-test:
 
 governance-check:
 	bash ./scripts/governance-check.sh
+
+pr-traceability-check:
+	bash ./scripts/pr-traceability-check.sh

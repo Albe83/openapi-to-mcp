@@ -14,8 +14,8 @@ Before planning or coding:
 2. Load only the relevant policy module(s) for the current task.
 3. Avoid loading unrelated policy files.
 
-## Mandatory Modules for Feature/Bugfix
-Load these owner modules in this order:
+## Baseline Modules for Feature/Bugfix (Mandatory)
+For every `feat` or `fix`, load these owner modules in this order:
 1. [docs/policies/02-lifecycle.md](docs/policies/02-lifecycle.md)
 2. [docs/policies/03-architecture-first.md](docs/policies/03-architecture-first.md)
 3. [docs/policies/04-testing-tdd.md](docs/policies/04-testing-tdd.md)
@@ -23,9 +23,11 @@ Load these owner modules in this order:
 5. [docs/policies/10-review-and-findings.md](docs/policies/10-review-and-findings.md)
 6. [docs/policies/07-compliance-dod.md](docs/policies/07-compliance-dod.md)
 
-All normative details are owned by these modules.
+For baseline feat/fix work, normative rules are owned by these modules.
 
 ## Conditional Modules
+Conditional modules below are also normative.
+If a trigger applies, load that module (or modules); it is mandatory for that task.
 - If model/schema changes: [docs/policies/08-domain-driven-design.md](docs/policies/08-domain-driven-design.md).
 - If public API changes: [docs/policies/11-public-api-idl.md](docs/policies/11-public-api-idl.md).
 - If boundaries/integrations/ports/adapters change: [docs/policies/12-hexagonal-architecture.md](docs/policies/12-hexagonal-architecture.md).
