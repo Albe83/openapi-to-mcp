@@ -16,7 +16,13 @@ jobs:
     outputs:
       tag: ${{ steps.semver.outputs.tag }}
       is_prerelease: ${{ steps.semver.outputs.is_prerelease }}
+      changelog_body: ${{ steps.semver.outputs.changelog_body }}
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Validate SemVer Tag
         id: semver
         run: |
@@ -32,8 +38,53 @@ jobs:
           else
             is_prerelease="false"
           fi
+
+          object_type="$(git for-each-ref --format='%(objecttype)' "refs/tags/${tag}")"
+          if [[ "${object_type}" != "tag" ]]; then
+            echo "Tag '${tag}' must be annotated and include curated changelog notes." >&2
+            exit 1
+          fi
+
+          changelog_body="$(git for-each-ref --format='%(contents)' "refs/tags/${tag}")"
+          changelog_body="${changelog_body//$'\r'/}"
+          if [[ -z "$(printf '%s' "${changelog_body}" | tr -d '[:space:]')" ]]; then
+            echo "Annotated tag '${tag}' has empty changelog notes." >&2
+            exit 1
+          fi
+
+          require_section() {
+            local header="$1"
+            if ! printf '%s\n' "${changelog_body}" | grep -Fxq "${header}"; then
+              echo "Missing required changelog section: ${header}" >&2
+              exit 1
+            fi
+            local content
+            content="$(printf '%s\n' "${changelog_body}" | awk -v h="${header}" '
+              $0==h {in_section=1; next}
+              in_section && /^## / {exit}
+              in_section {print}
+            ')"
+            if [[ -z "$(printf '%s' "${content}" | tr -d '[:space:]')" ]]; then
+              echo "Section '${header}' is empty." >&2
+              exit 1
+            fi
+          }
+
+          require_section "## Summary"
+          require_section "## Added"
+          require_section "## Changed"
+          require_section "## Fixed"
+          require_section "## Breaking Changes"
+          require_section "## Migration Notes"
+          require_section "## References"
+
           echo "tag=${tag}" >> "${GITHUB_OUTPUT}"
           echo "is_prerelease=${is_prerelease}" >> "${GITHUB_OUTPUT}"
+          {
+            echo "changelog_body<<EOF"
+            printf '%s\n' "${changelog_body}"
+            echo "EOF"
+          } >> "${GITHUB_OUTPUT}"
 
   publish-image:
     needs: validate-tag
@@ -143,8 +194,9 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.validate-tag.outputs.tag }}
-          generate_release_notes: true
           prerelease: ${{ needs.validate-tag.outputs.is_prerelease == 'true' }}
           body: |
+            ${{ needs.validate-tag.outputs.changelog_body }}
+
             Container image:
             - `${{ needs.publish-image.outputs.image_ref }}`

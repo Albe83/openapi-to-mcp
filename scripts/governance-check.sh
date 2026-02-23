@@ -127,6 +127,7 @@ check_container_native_isolation() {
 check_normative_owner_phrases() {
     local rule owner phrase matches file
     local -a rules=(
+        "docs/policies/06-versioning-release.md|Each release MUST include a curated changelog in GitHub Release notes."
         "docs/policies/17-logging-stdout-json.md|Application logs MUST be emitted to standard output"
         "docs/policies/18-m2m-protocol-selection.md|For Command/Reply communication, the default protocol MUST be REST API with a formal OpenAPI contract."
         "docs/policies/19-m2m-events-asyncapi-cloudevents.md|Event interfaces MUST be defined with AsyncAPI."

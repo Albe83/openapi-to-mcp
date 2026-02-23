@@ -15,7 +15,7 @@ Use this index to load only the modules needed for the current task.
 - [03-architecture-first.md](03-architecture-first.md): Read when solution design is needed. Covers ADR-first flow, diagrams, schemas, and IDL linkage.
 - [04-testing-tdd.md](04-testing-tdd.md): Read for implementation/testing work. Covers TDD, bug reproduction-first, and lint/test evidence.
 - [05-git-and-pr.md](05-git-and-pr.md): Read when creating branches, commits, and PRs. Covers trunk rules, naming, branch guard, merge policy.
-- [06-versioning-release.md](06-versioning-release.md): Read for release work. Covers SemVer tags, bump logic, and release rationale.
+- [06-versioning-release.md](06-versioning-release.md): Read for release work. Covers SemVer tags, bump logic, and changelog requirements.
 - [07-compliance-dod.md](07-compliance-dod.md): Read before merge. Defines Definition of Done and compliance gate expectations.
 - [08-domain-driven-design.md](08-domain-driven-design.md): Read if model/schema changes. Covers DDD applicability and required outputs.
 - [09-language-simple-english.md](09-language-simple-english.md): Read for ADR/docs/comments. Defines simple-English repository language rules.

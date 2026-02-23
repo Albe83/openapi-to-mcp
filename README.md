@@ -133,9 +133,35 @@ This repository uses GitHub Actions with dedicated workflows:
 
 Release trigger examples:
 ```bash
-git tag v0.2.0
-git push origin v0.2.0
+cat > /tmp/release-v0.3.1.md <<'EOF'
+## Summary
+- Short release summary.
+
+## Added
+- New features.
+
+## Changed
+- Behavior updates.
+
+## Fixed
+- Bug fixes.
+
+## Breaking Changes
+- None
+
+## Migration Notes
+- None
+
+## References
+- #123
+- #124
+EOF
+
+git tag -a v0.3.1 -F /tmp/release-v0.3.1.md
+git push origin v0.3.1
 ```
+
+Release notes must include the required changelog sections defined by [docs/policies/06-versioning-release.md](docs/policies/06-versioning-release.md).
 
 GHCR visibility prerequisite:
 - Set package visibility to `public` in GitHub Package settings before release.

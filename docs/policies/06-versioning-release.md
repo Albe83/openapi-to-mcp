@@ -28,12 +28,30 @@ Default bump from Conventional Commits:
 
 Manual override is allowed only in the release PR with explicit rationale.
 
+## Release Changelog (GitHub Release Notes)
+- Each release MUST include a curated changelog in GitHub Release notes.
+- `CHANGELOG.md` in repository is optional and is not required by this policy.
+- Changelog content source is annotated tag notes.
+- Required changelog sections:
+  - `## Summary`
+  - `## Added`
+  - `## Changed`
+  - `## Fixed`
+  - `## Breaking Changes` (use `None` if not applicable)
+  - `## Migration Notes` (use `None` if not applicable)
+  - `## References` (issues/PR links)
+- Required section headings must exist and section content must not be empty.
+
 ## Release PR Requirements
 - Target version
 - Bump rationale
 - Breaking change list (if any)
 - Release notes summary
+- Curated changelog draft with required sections.
 
 ## Non-Compliant
 - Tags not matching allowed SemVer forms.
 - Release PR missing bump rationale.
+- Release without curated changelog in GitHub Release notes.
+- Missing required changelog section.
+- Lightweight tag release without annotated changelog notes.
