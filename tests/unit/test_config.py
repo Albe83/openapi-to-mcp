@@ -28,6 +28,7 @@ def test_settings_defaults_and_path_precedence() -> None:
     assert settings.telemetry_otlp_protocol == "grpc"
     assert settings.telemetry_otlp_endpoint == "http://127.0.0.1:4317"
     assert settings.telemetry_export_interval_ms == 60000
+    assert settings.prometheus_metrics_enabled is False
     assert settings.service_name == "openapi-to-mcp"
     assert settings.service_namespace == "openapi-to-mcp"
     assert settings.deployment_environment == "dev"
@@ -76,5 +77,33 @@ def test_settings_invalid_telemetry_interval() -> None:
             {
                 "OPENAPI_SPEC_PATH": "./spec.yaml",
                 "TELEMETRY_EXPORT_INTERVAL_MS": "0",
+            }
+        )
+
+
+def test_settings_prometheus_toggle_parsing() -> None:
+    settings_enabled = Settings.from_env(
+        {
+            "OPENAPI_SPEC_PATH": "./spec.yaml",
+            "PROMETHEUS_METRICS_ENABLED": "true",
+        }
+    )
+    settings_disabled = Settings.from_env(
+        {
+            "OPENAPI_SPEC_PATH": "./spec.yaml",
+            "PROMETHEUS_METRICS_ENABLED": "false",
+        }
+    )
+
+    assert settings_enabled.prometheus_metrics_enabled is True
+    assert settings_disabled.prometheus_metrics_enabled is False
+
+
+def test_settings_invalid_prometheus_toggle_value() -> None:
+    with pytest.raises(ConfigurationError):
+        Settings.from_env(
+            {
+                "OPENAPI_SPEC_PATH": "./spec.yaml",
+                "PROMETHEUS_METRICS_ENABLED": "maybe",
             }
         )

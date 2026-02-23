@@ -12,6 +12,7 @@ This repository now includes a working Python technical foundation:
 - Operation mapping and MCP tool generation (`operationId` first, deterministic fallback).
 - Health endpoint (`GET /healthz`).
 - OTLP telemetry export with OpenTelemetry SDK instrumentation.
+- Optional Prometheus-compatible metrics endpoint (`GET /metrics`) behind feature toggle.
 - Local fallback MCP endpoint (`POST /mcp`) when FastMCP is not available.
 
 Architecture and governance artifacts:
@@ -39,6 +40,7 @@ Optional:
 - `TELEMETRY_OTLP_PROTOCOL` (`grpc` default, `http` fallback)
 - `TELEMETRY_OTLP_ENDPOINT` (default `http://127.0.0.1:4317` for `grpc`)
 - `TELEMETRY_EXPORT_INTERVAL_MS` (default `60000`)
+- `PROMETHEUS_METRICS_ENABLED` (`false` default; when `true`, enables `GET /metrics`)
 - `SERVICE_NAME` (default `openapi-to-mcp`)
 - `SERVICE_NAMESPACE` (default `openapi-to-mcp`)
 - `DEPLOYMENT_ENVIRONMENT` (default `dev`)
@@ -168,6 +170,7 @@ Event-Driven and Pub/Sub governance rules are defined in [docs/policies/19-m2m-e
 ## Metrics and Telemetry Transport Policy
 Telemetry export and transport rules are defined in [docs/policies/22-metrics-transport-standard.md](docs/policies/22-metrics-transport-standard.md).
 Current runtime exports metrics via OTLP to a Collector target configured through environment variables.
+Prometheus-compatible scraping is optional and disabled by default (`PROMETHEUS_METRICS_ENABLED=false`).
 
 ## Metrics Design Policy
 Metrics semantic design rules (naming, units, USE, RED, and latency histograms) are defined in [docs/policies/23-metrics-design-use-red.md](docs/policies/23-metrics-design-use-red.md).

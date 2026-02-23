@@ -36,6 +36,7 @@ def build_telemetry_runtime(
     protocol: str,
     endpoint: str,
     export_interval_ms: int,
+    enable_prometheus: bool,
     service_name: str,
     service_namespace: str,
     service_version: str,
@@ -49,6 +50,16 @@ def build_telemetry_runtime(
         exporter=exporter,
         export_interval_millis=export_interval_ms,
     )
+    metric_readers: list[Any] = [metric_reader]
+    if enable_prometheus:
+        try:
+            from opentelemetry.exporter.prometheus import PrometheusMetricReader
+        except ModuleNotFoundError as exc:
+            raise RuntimeError(
+                "Prometheus metrics are enabled but opentelemetry-exporter-prometheus "
+                "is not installed."
+            ) from exc
+        metric_readers.append(PrometheusMetricReader())
     resource = Resource.create(
         {
             SERVICE_NAME: service_name,
@@ -69,7 +80,7 @@ def build_telemetry_runtime(
         )
 
     provider = MeterProvider(
-        metric_readers=[metric_reader],
+        metric_readers=metric_readers,
         resource=resource,
         views=views,
     )

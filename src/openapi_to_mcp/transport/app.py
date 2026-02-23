@@ -7,7 +7,7 @@ from contextlib import asynccontextmanager
 from time import perf_counter
 from typing import Any, Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from pydantic import BaseModel, Field
 
 from openapi_to_mcp import __version__
@@ -47,6 +47,7 @@ def create_app(
         telemetry_otlp_protocol=settings.telemetry_otlp_protocol,
         telemetry_otlp_endpoint=settings.telemetry_otlp_endpoint,
         telemetry_export_interval_ms=settings.telemetry_export_interval_ms,
+        prometheus_metrics_enabled=settings.prometheus_metrics_enabled,
         service_name=settings.service_name,
         service_namespace=settings.service_namespace,
         service_version=__version__,
@@ -123,6 +124,16 @@ def create_app(
     @app.get("/healthz")
     async def healthz() -> dict[str, str]:
         return {"status": "ok"}
+
+    if settings.prometheus_metrics_enabled:
+
+        @app.get("/metrics")
+        async def metrics_endpoint() -> Response:
+            payload = metrics.render_prometheus_payload()
+            content_type = metrics.prometheus_content_type()
+            if payload is None or content_type is None:
+                raise HTTPException(status_code=404, detail="Prometheus metrics are disabled.")
+            return Response(content=payload, headers={"Content-Type": content_type})
 
     if mcp_adapter.supports_streamable_http:
         app.mount("", mcp_adapter.streamable_http_app())
