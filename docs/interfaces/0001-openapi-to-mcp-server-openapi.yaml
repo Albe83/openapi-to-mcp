@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: OpenAPI to MCP Service API
-  version: 0.2.0
+  version: 0.3.0
   description: |
     Public API contract for the OpenAPI-to-MCP runtime service.
     Parent issue: #1
