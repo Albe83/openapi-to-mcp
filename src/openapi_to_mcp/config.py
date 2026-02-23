@@ -10,6 +10,8 @@ from .errors import ConfigurationError
 
 _ALLOWED_LOG_LEVELS = {"critical", "error", "warning", "info", "debug"}
 _ALLOWED_TELEMETRY_PROTOCOLS = {"grpc", "http"}
+_TRUE_VALUES = {"1", "true", "yes", "on"}
+_FALSE_VALUES = {"0", "false", "no", "off"}
 
 
 @dataclass(frozen=True)
@@ -27,6 +29,7 @@ class Settings:
     telemetry_otlp_protocol: str = "grpc"
     telemetry_otlp_endpoint: str = "http://127.0.0.1:4317"
     telemetry_export_interval_ms: int = 60000
+    prometheus_metrics_enabled: bool = False
     service_name: str = "openapi-to-mcp"
     service_namespace: str = "openapi-to-mcp"
     deployment_environment: str = "dev"
@@ -60,6 +63,10 @@ class Settings:
             telemetry_export_interval_ms=_parse_positive_int(
                 values.get("TELEMETRY_EXPORT_INTERVAL_MS", "60000"),
                 "TELEMETRY_EXPORT_INTERVAL_MS",
+            ),
+            prometheus_metrics_enabled=_parse_bool(
+                values.get("PROMETHEUS_METRICS_ENABLED", "false"),
+                "PROMETHEUS_METRICS_ENABLED",
             ),
             service_name=_parse_non_empty_string(
                 values.get("SERVICE_NAME", "openapi-to-mcp"), "SERVICE_NAME"
@@ -146,6 +153,17 @@ def _parse_non_empty_string(value: str, field_name: str) -> str:
     if not text:
         raise ConfigurationError(f"{field_name} must not be empty.")
     return text
+
+
+def _parse_bool(value: str, field_name: str) -> bool:
+    text = value.strip().lower()
+    if text in _TRUE_VALUES:
+        return True
+    if text in _FALSE_VALUES:
+        return False
+    raise ConfigurationError(
+        f"{field_name} must be a boolean value ({', '.join(sorted(_FALSE_VALUES | _TRUE_VALUES))})."
+    )
 
 
 def _default_otlp_endpoint(protocol: str) -> str:

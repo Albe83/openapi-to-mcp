@@ -35,6 +35,7 @@ class RuntimeMetrics:
         telemetry_otlp_protocol: str = "grpc",
         telemetry_otlp_endpoint: str = "http://127.0.0.1:4317",
         telemetry_export_interval_ms: int = 60000,
+        prometheus_metrics_enabled: bool = False,
         service_name: str = "openapi-to-mcp",
         service_namespace: str = "openapi-to-mcp",
         service_version: str = "0.0.0",
@@ -44,11 +45,13 @@ class RuntimeMetrics:
         self._in_flight_value = 0
         self._max_in_flight_value = max_in_flight
         self._max_connections_value = max_connections
+        self._prometheus_metrics_enabled = prometheus_metrics_enabled
 
         telemetry = build_telemetry_runtime(
             protocol=telemetry_otlp_protocol,
             endpoint=telemetry_otlp_endpoint,
             export_interval_ms=telemetry_export_interval_ms,
+            enable_prometheus=prometheus_metrics_enabled,
             service_name=service_name,
             service_namespace=service_namespace,
             service_version=service_version,
@@ -159,6 +162,20 @@ class RuntimeMetrics:
         except Exception:
             # Avoid crashing shutdown path if exporter/network is unavailable.
             return
+
+    def render_prometheus_payload(self) -> bytes | None:
+        if not self._prometheus_metrics_enabled:
+            return None
+        from prometheus_client import REGISTRY, generate_latest
+
+        return generate_latest(REGISTRY)
+
+    def prometheus_content_type(self) -> str | None:
+        if not self._prometheus_metrics_enabled:
+            return None
+        from prometheus_client import CONTENT_TYPE_LATEST
+
+        return CONTENT_TYPE_LATEST
 
     def _observe_max_in_flight(self, options: Any) -> list[Observation]:
         del options

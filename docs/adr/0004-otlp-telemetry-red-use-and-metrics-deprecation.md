@@ -1,6 +1,6 @@
 # ADR 0004: OTLP Telemetry with RED and USE Metrics (Remove `/metrics`)
 
-- Status: Accepted
+- Status: Superseded by [ADR 0005](0005-optional-prometheus-compatibility-toggle.md)
 - Date: 2026-02-22
 - Parent issue: #TBD
 - Related sub-issues: #TBD

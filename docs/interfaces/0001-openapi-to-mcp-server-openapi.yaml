@@ -26,6 +26,22 @@ paths:
                   status:
                     type: string
                     enum: [ok]
+  /metrics:
+    get:
+      summary: Prometheus-compatible metrics scrape endpoint
+      operationId: getMetrics
+      description: |
+        Optional endpoint enabled only when `PROMETHEUS_METRICS_ENABLED=true`.
+        If disabled, route is not mounted and returns 404.
+      responses:
+        '200':
+          description: Prometheus-compatible metrics payload
+          content:
+            text/plain:
+              schema:
+                type: string
+        '404':
+          description: Metrics feature disabled
   /mcp:
     post:
       summary: Streamable HTTP entrypoint for MCP messages
