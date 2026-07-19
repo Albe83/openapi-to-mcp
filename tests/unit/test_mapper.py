@@ -1,6 +1,12 @@
 from __future__ import annotations
 
+from pathlib import Path
+
+import yaml
+
 from openapi_to_mcp.application.mapper import OperationMapper
+
+FIXTURES_DIR = Path(__file__).resolve().parents[1] / "fixtures"
 
 
 def test_operation_mapper_maps_operations_and_parameters() -> None:
@@ -78,3 +84,27 @@ def test_operation_mapper_uses_server_override_precedence() -> None:
     assert by_id["rootOnly"].server_url == "https://root.example.com"
     assert by_id["pathLevel"].server_url == "https://path.example.com"
     assert by_id["operationLevel"].server_url == "https://operation.example.com"
+
+
+def test_operation_mapper_maps_xquik_openapi_31_fixture() -> None:
+    spec = yaml.safe_load((FIXTURES_DIR / "xquik-openapi.yaml").read_text())
+
+    operations = OperationMapper().map_operations(spec)
+    by_id = {op.operation_id: op for op in operations}
+
+    assert set(by_id) == {"getUser", "searchTweets"}
+    assert by_id["getUser"].path == "/api/v1/x/users/{id}"
+    assert by_id["getUser"].server_url == "https://xquik.com"
+    assert {(p["in"], p["name"]) for p in by_id["getUser"].parameters} == {
+        ("header", "x-api-key"),
+        ("path", "id"),
+    }
+    assert {(p["in"], p["name"]) for p in by_id["searchTweets"].parameters} == {
+        ("header", "x-api-key"),
+        ("query", "cursor"),
+        ("query", "limit"),
+        ("query", "q"),
+        ("query", "queryType"),
+        ("query", "sinceTime"),
+        ("query", "untilTime"),
+    }

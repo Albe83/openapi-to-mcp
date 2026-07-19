@@ -77,7 +77,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Trivy Filesystem Scan
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           scan-type: fs
           scan-ref: .
@@ -97,7 +97,7 @@ jobs:
         run: docker build -f Containerfiles/Containerfile.prod -t openapi-to-mcp:security-scan .
 
       - name: Trivy Image Scan
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           scan-type: image
           image-ref: openapi-to-mcp:security-scan
