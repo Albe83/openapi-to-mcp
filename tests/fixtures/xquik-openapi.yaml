@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: Xquik API
+  version: "1.0"
+  description: >-
+    Xquik is an independent third-party service. Not affiliated with X Corp.
+    "Twitter" and "X" are trademarks of X Corp.
+servers:
+  - url: https://xquik.com
+paths:
+  /api/v1/x/users/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: X username without @ or user ID.
+        schema:
+          type: string
+    get:
+      operationId: getUser
+      summary: Get an X user profile with follower counts and verification status.
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User profile.
+  /api/v1/x/tweets/search:
+    get:
+      operationId: searchTweets
+      summary: Search X posts by query with pagination.
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: queryType
+          in: query
+          schema:
+            type: string
+            enum:
+              - Latest
+              - Top
+        - name: cursor
+          in: query
+          schema:
+            type: string
+        - name: sinceTime
+          in: query
+          schema:
+            type: string
+        - name: untilTime
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: Search results.

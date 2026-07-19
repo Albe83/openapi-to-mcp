@@ -78,9 +78,9 @@ jobs:
           require_section "## Migration Notes"
           require_section "## References"
 
-          echo "tag=${tag}" >> "${GITHUB_OUTPUT}"
-          echo "is_prerelease=${is_prerelease}" >> "${GITHUB_OUTPUT}"
           {
+            echo "tag=${tag}"
+            echo "is_prerelease=${is_prerelease}"
             echo "changelog_body<<EOF"
             printf '%s\n' "${changelog_body}"
             echo "EOF"
@@ -106,9 +106,9 @@ jobs:
           image="ghcr.io/${GITHUB_REPOSITORY,,}"
           package_name="${GITHUB_REPOSITORY#*/}"
           package_name="${package_name,,}"
-          echo "image_ref=${image}:${TAG}" >> "${GITHUB_OUTPUT}"
-          echo "package_name=${package_name}" >> "${GITHUB_OUTPUT}"
           {
+            echo "image_ref=${image}:${TAG}"
+            echo "package_name=${package_name}"
             echo "tags<<EOF"
             echo "${image}:${TAG}"
             if [[ "${IS_PRERELEASE}" == "false" ]]; then
@@ -169,7 +169,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Trivy Scan Published Image
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         env:
           TRIVY_USERNAME: ${{ github.actor }}
           TRIVY_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
